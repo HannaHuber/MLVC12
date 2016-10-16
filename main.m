@@ -3,6 +3,10 @@
 % Lena Trautmann
 % Hanna Huber
 
-%% Task 1.1.1
+clear all
+clc
+
+%% Task 1.1.
+data = dlmread('perceptrondataUseful.csv',','); 
 
 %% Task 1.1.2
