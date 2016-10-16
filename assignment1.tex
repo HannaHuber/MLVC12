@@ -1,0 +1,133 @@
+\documentclass[a4]{article}
+%\usepackage[austrian]{babel}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsfonts,latexsym,amssymb,graphicx}
+\usepackage{subfigure,epsfig,epstopdf}
+%\usepackage{pdfsync}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+\title{\bf 183.605 \\ Machine Learning for Visual Computing \\ Assignment 1}
+\author{Michael Reiter}
+\date{14. Oktober 2016}
+\begin{document}
+\maketitle
+\noindent
+Assignment via TUWEL. Please be aware of the deadlines in TUWEL. \\
+\begin{itemize}
+\item Upload a zip-file with the required programs. You can choose the programming language.
+\item Add a PDF document with answers to all of the questions of the assignment (particularly all required plots) and description and discussion of results. 
+\end{itemize}
+
+\section{Assignment 1}
+
+The aim of this first assignment is to gather experience with linear models. We will apply a linear model to synthetic examples of binary classification (part 1) and polynomial regression (part 2). In both cases we will employ basis functions to allow for modeling non-linear functions of the original data.
+
+You have free choice of the programming language (we recommend Matlab, R or Python).
+You are asked to implement the required functions by yourself, without using pre-packaged programs  providing these functions. The required algorithms are introduced in the lecture (you are referred to recommended literature and lecture slides).
+
+\subsection{Part 1: Binary classification and the perceptron}
+
+\subsubsection{Reading data}\label{sec:readdata}
+
+The file perceptrondata.csv contains 200 rows with 3 entries as ASCII-text. The left two columns represent the coordinates of two-dimensional observations. The right column holds the target-values  (1 oder -1) indicating the class assignments of the vectors.
+
+\vspace{15mm}
+\noindent {\bf Tasks:}
+\begin{itemize}
+\item Read the data using functions of your programming language resp. simulation software.
+\item Plot the input vectors in $\mathbb{R}^2$ and visualize corresponding target values (e.g. by using color). 
+\item Use the feature transformation $(x_1,x_2) \rightarrow (x_1^2,x_2^2)$ and plot the data in the new feature space. The data should now be linearly separable.
+\end{itemize}
+
+\subsubsection{Perceptron training algorithm}
+The function
+\begin{center}
+\texttt{y = perc(w,X)}.
+\end{center}
+simulates a perceptron. The first argument is the weight vector ${\bf w}$ and the second argument is a matrix with input vectors in its columns ${\bf X}$. The output ${\bf y}$ is a binary vector with class labels 1 or -1.
+
+The function 
+\begin{center}
+\texttt{w = percTrain(X,t,maxIts,online)}.
+\end{center} 
+returns a weight vector ${\bf w}$ corresponding to the decision boundary separating the input vectors in ${\bf X}$ according to their target values ${\bf t}$.
+
+The argument $\texttt{maxIts}$ determines an upper limit for iterations of the gradient based optimization procedure. If this upper limit is reached before a solution vector is found, the function returns the current ${\bf w}$, otherwise it returns the solution weight vector. \texttt{online} is \emph{true} if the \emph{online}-version of the optimization procedure is to be used or \emph{false} for the \emph{batch}-version. 
+\vspace{2mm}
+
+\noindent {\bf Tasks:}
+\begin{itemize}
+\item Implement both functions. Use homogeneous coordinates and the corresponding augmented weight vector ${\mathbf w}\in\mathbb{R}^3$.
+\item Plot the data and decision boundary in $\mathbb{R}^2$, both in the original data space (see e.g. Figure~\ref{fig:perceptron}) and in the feature space of basis functions, each at three different stages of the training: after the first iteration, after approximately half of the required iterations, and after convergence. 
+\item Initialize ${\bf w} = {\bf 0}$. What is the influence of the learning rate?
+\end{itemize}
+
+\begin{figure}[!h]
+\begin{center}
+\centering
+	\includegraphics[width=6cm]{perceptron.pdf}
+\end{center}
+\caption{\label{fig:perceptron}Plot of the decision boundary in the original data space found by the perceptron (green curve) together with labelled data points.}
+\end{figure}
+
+\subsection{Part 2: Linear basis function models for regression}
+
+Aim of this exercise to deepen understanding of parameter optimization of error function while taking into account the relation of model complexity (in this case it corresponds to the number of basis functions used) and the expected error. Since this expected value (the mean squared error) is a theoretical quantity, it has to be estimated by the average of the error of predictions resulting from many training runs with different randomly generated target values.
+
+\subsubsection{Experimental setup}
+A row vector of scalar inputs $x \in [0,5]$ sampling the interval in steps of $0.1$ (resulting in 51 values) and a corresponding output vector $\mathbf{y}$ with values $y = f(x) = 2x^2-Gx+1$ is the basis of this experiment. The coefficient $G$ is your group number. These 51 points are to be used for the visualization of the target function and the predictions of the fitted model.
+A training set is generated by subsampling the 51 values as follows: Every eighth value ($x_0 = 0$, $x_1 = 0.8$, $x_2 = 0.16$, ...) is assigned to the training set and the target values $t_i$ are obtained by adding to the corresponding $y_i$ a random value from the normal distribution $\mathcal{N}(\mu = 0,\sigma = 16)$. Thus, the training set contains $N = 9$ pairs of observations $x_i, t_i$. 
+
+We will employ a linear basis function model of the form $f_{\mathbf w}(x) = {\mathbf w}^T{\mathbf \Phi}(x)$, where\begin{equation} \nonumber
+{\mathbf \Phi}(x) \rightarrow \left(
+\begin{array}{c} 1\\ x \\ x^2 \\ \vdots \\ x^d \\ \end{array}\right),
+\end{equation} 
+and ${\mathbf w} \in \mathbb{R}^{d+1}$. The model will be fitted to the training set by minimization of the training error 
+\begin{equation}
+E({\mathbf w}) = \sum_{i = 1}^N(t_i - {\mathbf w}^T{\mathbf \Phi}(x_i))^2
+\end{equation} 
+also known as the \emph{residual sum of squares} (RSS). The optimal weight vector is given by ${\mathbf w}^* = \arg\min_{\mathbf w} E({\mathbf w})$.
+
+
+\begin{figure}[!h]
+\begin{center}
+\centering
+	\subfigure[]{\includegraphics[width=5.5cm]{regressiond2.pdf}}
+	\subfigure[]{\includegraphics[width=5.5cm]{regressiond4.pdf}}
+\end{center}
+\caption{An example of a true target function (thin green curve) from which the training data was generated, training set (without feature transformation) with $N=9$ (blue dots) and prediction of the fitted model ${\mathbf w}^T{\mathbf \Phi}(x)$ (blue curve). The basis functions are ${\mathbf \Phi}(x) \rightarrow (1,x,x^2,x^3,...,x^d)^T$. (a) $d=2$ (b) $d=4$.}
+\end{figure}
+
+\subsubsection{Optimization: \emph{LMS}-learning rule vs. closed form}
+
+Use a linear unit (\emph{online} LMS-learning rule) for regression on transformed input data. In a first step use a linear basis function model with $d=2$ (in Matlab you can calculate the power elementwise: e.g. \texttt{[x x x].$\wedge$ [0 1 2]}). Hint: Visualize $y$ and its prediction during the training or observe the chance of the weight vector to determine useful values for $\gamma$.
+\vspace{2mm}
+
+\noindent {\bf Tasks:}
+\begin{itemize}
+\item What is the resulting weight vector when using the LMS-rule?
+\item How can you determine the optimal ${\mathbf w}^*$ in closed form? Compare ${\mathbf w}^*$ with the outcome of the LMS-rule training.
+\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
+\end{itemize}
+
+\subsubsection{Model-complexity and model-selection}
+Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 16)$, while the $x_i$ remain unchanged. 
+
+\vspace{2mm}
+\noindent {\bf Tasks}\footnote{In all tasks $\mathcal{E}$ refers to the expected value with respect to the random variable ${\mathbf w^*}$, i.e. $\mathcal{E} \equiv \mathcal{E}_{\mathbf w^*}$}:
+\begin{itemize}
+\item Select a fixed $x'$, which is not an observation of the training set, but lies between two observations (e.g. $x' = 2$)
+\item Estimate the \emph{mean squared error} 
+\begin{equation} \nonumber
+\mbox{\emph{mse}} = \mathcal{E} (f(x')-f_{\mathbf w^*}(x'))^2,
+\end{equation}i.e., the mean of the squared residuals of the models prediction $f_{\mathbf w^*}(x')$ from the true function value $f(x')$ for all $0 \leq d \leq 8$ ($d = 0$ corresponds to a constant function) using at least 2000 trials.  
+\item Estimate by the same way the quantities \emph{bias}$^2 = (f(x')-\mathcal{E} f_{\mathbf w^*}(x'))^2$ and \emph{var}$ = (f_{\mathbf w^*}(x') - \mathcal{E} f_{\mathbf w^*}(x'))^2$.
+\item Plot \emph{mse}, \emph{bias}$^2$ and \emph{var} against $d$ together in one plot. What is the relation of the quantities?
+\item (optional) Generate the above plots only for $d=8$, but minimize instead of $E({\mathbf w})$ the regularized error function 
+\begin{equation}
+E_{\lambda}({\mathbf w}) = \sum_{i = 1}^N(t_i - {\mathbf w}^T{\mathbf \Phi}(x_i))^2 + \lambda \|{\mathbf w}\|^2,
+\end{equation} 
+i.e. ${\mathbf w}^* = \arg\min_{\mathbf w}^* E_{\lambda}({\mathbf w})$. Plot the quantities against $\lambda$ instead of $d$. Hint: The minimum can be obtained in closed form (see lecture slides). 
+\end{itemize}
+
+\end{document}
