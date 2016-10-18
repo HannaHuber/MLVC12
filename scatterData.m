@@ -9,8 +9,12 @@ function [ h ] = scatterData( data , xlab, ylab, tit )
 %   Output:
 %       h:      figure handle
 
-h = figure()
-scatter(data(:,1),data(:,2),20,data(:,3),'filled')
+h = figure();
+cols = zeros(size(data, 1), 3);
+szClass1 = nnz(data(:,3)>0);
+cols(data(:,3)>0, :) = repmat([1 0 0], szClass1, 1);
+cols(data(:,3)<0, :) = repmat([0 1 0], size(data, 1) - szClass1, 1);
+scatter(data(:,1),data(:,2),20,cols,'filled')
 xlabel(xlab)
 ylabel(ylab)
 title(tit)

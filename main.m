@@ -3,7 +3,7 @@
 % Lena Trautmann
 % Hanna Huber
 
-clear all
+%clear all
 close all
 clc
 
@@ -25,6 +25,9 @@ printPDF(h2, 'transformedInputVectors');
 
 
 %% Task 1.1.2 Perceptron training algorithm
+% train perceptron (online + batch learning)
+wOnline = percTrain(data(:,1:2)', data(:,3), 1000, true);
+wBatch = percTrain(data(:,1:2)', data(:,3), 1000, false);
 
 
 %% Task 1.2.1 Experimental setup
