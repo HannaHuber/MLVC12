@@ -31,6 +31,7 @@ wBatch = percTrain(data(:,1:2)', data(:,3), 1000, false);
 
 
 %% Task 1.2.1 Experimental setup
+% x as row vector
 x = (0:0.1:5);
 y = 2*x.^2-12*x+1;
 trainingIdx = (1:8:51);
@@ -52,12 +53,28 @@ Xtrain = phi(xtrain,d);
 % initialize weight vector
 w = zeros(1,d+1);
 % initialize learning rate
-gamma = 1;
+gamma = 0.1;
+% epsilon_LMS
+epsilon = 0.01;
+% execution nr
+runs = 0;
+% just for observation of w:
+w_observe = zeros(1,d+1);
 % online LMS:
-while ((ttrain.*(w*Xtrain)) > 0) ~= ones(1,N)
+while 0.5*(ttrain-w*Xtrain)*(ttrain-w*Xtrain)' > epsilon && runs < 1000 %correctly classified if all entries of w*X.*t are 1
     for i=1:N
-        if w*(Xtrain(:,i)*ttrain(i)) <= 0
-            w = w + gamma*((ttrain(i)-w*Xtrain(:,i))*Xtrain(:,i))';
+        if w*(Xtrain(:,i)*ttrain(i)) <= 0 % it is missclassified
+            % update w            
+            w = w + gamma*((ttrain(i)-w*Xtrain(:,i))*Xtrain(:,i))';            
         end
-    end
+    end  
+    w_observe(size(w_observe,1)+1,:) = w; %just for observation reasons
+    runs = runs+1;
 end
+% plot target and regression
+figure()
+hold on
+plot(x,y)
+plot(xtrain,ttrain,'*g')
+plot(xtrain,w*Xtrain,'or') % er hatte da immer eine Kurve geplottet?!
+legend('origina','traininsset','LMS')
