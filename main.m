@@ -76,5 +76,6 @@ figure()
 hold on
 plot(x,y)
 plot(xtrain,ttrain,'*g')
-plot(xtrain,w*Xtrain,'or') % er hatte da immer eine Kurve geplottet?!
-legend('origina','traininsset','LMS')
+LMS = polyval(fliplr(w),x);
+plot(x,LMS,'r') % er hatte da immer eine Kurve geplottet?!
+legend('original','trainingsset','LMS')
