@@ -55,7 +55,7 @@ figure()
 hold on
 plot(x,y)
 plot(xtrain,ttrain,'*g')
-%plot polynom of LMS (w are the coefficients)
+%plot the polynom of LMS (w are the coefficients)
 plot(x,polyval(fliplr(wLMS),x),'r')
 %plot(xtrain,wLMS*xtrain_phi,'r')
 legend('original','trainingsset','LMS')
