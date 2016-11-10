@@ -48,13 +48,14 @@ xtrain_phi = phi(xtrain,d);
 
 
 %% Task 1.2.2 Optimization: LMS-learning rule vs. closed form
-% online LMS-learning rule
-wLMS = lmsTrain(xtrain_phi, ttrain);
+% online LMS-learning rule (true)
+wLMS = lmsTrain(xtrain_phi, ttrain, true);
 % plot target and regression
 figure()
 hold on
 plot(x,y)
 plot(xtrain,ttrain,'*g')
-%LMS = polyval(fliplr(wLMS),xtrain_phi);
-plot(xtrain,wLMS*xtrain_phi,'r') % er hatte da immer eine Kurve geplottet?!
+%plot the polynom of LMS (w are the coefficients)
+plot(x,polyval(fliplr(wLMS),x),'r')
+%plot(xtrain,wLMS*xtrain_phi,'r')
 legend('original','trainingsset','LMS')
