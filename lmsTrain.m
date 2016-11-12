@@ -19,14 +19,13 @@ gamma = 0.0001;
 
 % execution nr
 runs = 0;
-maxIter = 20000;
+maxIter = 10000;
 
 % error
-nEpochs = 1000;
-avgErr = 0;
+currErr = 0;
 prevAvgErr = inf;
 errRatio = 0;
-tau = 1 - 0.0000001;
+tau = 1 - 0.00001;
 
 % just for observation of w:
 w_observe = zeros(1,D);
@@ -44,17 +43,14 @@ while ((errRatio < tau) && (runs < maxIter))
     w_observe(size(w_observe,1)+1,:) = w; 
 
     % update average error and iteration counter
-    currErr = 0.5*(t - w*X)*(t - w*X)';
-    avgErr = avgErr + currErr/nEpochs;
     runs = runs + 1;
+    currErr = currErr + 0.5*(t - w*X)*(t - w*X)'
+    avgErr = currErr/runs
     
     % calculate how much the average error has changed and reset variables
-    if (~mod(runs, nEpochs))
-        errRatio = avgErr/prevAvgErr;
-        prevAvgErr = avgErr;
-        avgErr = 0;
-    end   
-        
+    errRatio = avgErr/prevAvgErr;
+    prevAvgErr = avgErr;
+
 end
 
 end
