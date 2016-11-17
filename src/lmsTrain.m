@@ -36,8 +36,10 @@ while ((errRatio < tau) && (runs < maxIter))
             w = w + gamma*((t(i)-w*X(:,i))*X(:,i))';            
         
         end %for 
-    else %closed form
-        w = w + gamma*(X*X'*w'-X*t')';   %Slide 95+96     
+        
+    % update w in closed form    
+    else 
+        w = w + gamma*(X*(t - w*X)')';   %Slide 95+96 : X*X'*w'-X*t'  
     end %if
 
     % update average error and iteration counter
