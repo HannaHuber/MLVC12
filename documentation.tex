@@ -79,9 +79,42 @@ The argument $\texttt{maxIts}$ determines an upper limit for iterations of the g
 
 \noindent {\bf Tasks:}
 \begin{itemize}
-\item Implement both functions. Use homogeneous coordinates and the corresponding augmented weight vector ${\mathbf w}\in\mathbb{R}^3$.
-\item Plot the data and decision boundary in $\mathbb{R}^2$, both in the original data space (see e.g. Figure~\ref{fig:perceptron}) and in the feature space of basis functions, each at three different stages of the training: after the first iteration, after approximately half of the required iterations, and after convergence. 
-\item Initialize ${\bf w} = {\bf 0}$. What is the influence of the learning rate?
+\item The functions \texttt{percTrain} and \texttt{perc} are implemented in the files \texttt{percTrain.m} and \texttt{perc.m}, respectively.
+
+\item Figures~\ref{fig:origOL},~\ref{fig:transOL},~\ref{fig:origBA},~\ref{fig:transBA} show perceptron learning after the first iteration, half of the iterations needed and after the final iteration. They show that the algorithm converges much faster using online learning (see Figures~\ref{fig:origOL} and~\ref{fig:transOL}). Figures~\ref{fig:transOL} and~\ref{fig:transBA} illustrate how the transformation into the feature space of basis functions makes the data linearly separable. The non-linear decision boundary in the original data space is obtained by applying the inverse transformation to the linear decision boundary in feature space.
+\begin{figure}[h!]
+\centering
+	\subfigure[]{\includegraphics[width=5cm]{figures/originalOnlineIt1.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/originalOnlineIt3.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/originalOnlineIt6.pdf}}
+\caption{Perceptron decision boundary in the original data space at iterations \#1, \#3 and \#6 of online learning.}
+\label{fig:origOL}
+\end{figure}
+\begin{figure}[h!]
+\centering
+	\subfigure[]{\includegraphics[width=5cm]{figures/transformedOnlineIt1.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/transformedOnlineIt3.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/transformedOnlineIt6.pdf}}
+\caption{Perceptron decision boundary in the feature space of basis functions at iterations \#1, \#3 and \#6 of online learning.}
+\label{fig:transOL}
+\end{figure}
+\begin{figure}[h!]
+\centering
+	\subfigure[]{\includegraphics[width=5cm]{figures/originalBatchIt1.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/originalBatchIt342.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/originalBatchIt685.pdf}}
+\caption{Perceptron decision boundary in the original data space at iterations \#1, \#342 and \#685 of batch learning.}
+\label{fig:origBA}
+\end{figure}
+\begin{figure}[h!]
+\centering
+	\subfigure[]{\includegraphics[width=5cm]{figures/transformedBatchIt1.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/transformedBatchIt342.pdf}}
+	\subfigure[]{\includegraphics[width=5cm]{figures/transformedBatchIt685.pdf}}
+\caption{Perceptron decision boundary in the feature space of basis functions at iterations \#1, \#342 and \#685 of batch learning.}
+\label{fig:transBA}
+\end{figure}
+\item The weight vector is initialized as ${\bf w} = {\bf 0}$. This way, the learning rate $\gamma$ merely scales the weight vector ${\bf w^{(j)}} = \gamma \sum_{i\in M}x_it_i$, where $j$ denotes the current iteration and $M$ the set of data points that have been misclassified and used to update {\bf w} up to this point. As $(\gamma_1 \sum_{i\in M}x_it_i)^T (x_kt_k) \leq 0 \Leftrightarrow  (\gamma_2 \sum_{i\in M}x_it_i)^T (x_kt_k) \leq 0$ for any $\gamma_1, \gamma_2 > 0$, the classification of the $k$th data point and thus the learning behaviour of the perceptron are not influenced by the learning rate.
 \end{itemize}
 
 \begin{figure}[!h]
