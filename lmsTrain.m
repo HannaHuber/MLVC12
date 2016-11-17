@@ -22,30 +22,28 @@ runs = 0;
 maxIter = 10000;
 
 % error
-currErr = 0;
+cumErr = 0;
 prevAvgErr = inf;
 errRatio = 0;
 tau = 1 - 0.00001;
-
-% just for observation of w:
-w_observe = zeros(1,D);
 
 % Learn until average error over a number of epochs no longer changes
 while ((errRatio < tau) && (runs < maxIter))
     
     % update w online
-    for i=1:N         
+    if online
+        for i=1:N         
             w = w + gamma*((t(i)-w*X(:,i))*X(:,i))';            
-        %end
-    end  
-
-    % just for observation reasons
-    w_observe(size(w_observe,1)+1,:) = w; 
+        
+        end %for 
+    else %closed form
+        w = w + gamma*(X*X'*w'-X*t')';   %Slide 95+96     
+    end %if
 
     % update average error and iteration counter
     runs = runs + 1;
-    currErr = currErr + 0.5*(t - w*X)*(t - w*X)'
-    avgErr = currErr/runs
+    cumErr = cumErr + 0.5*(t - w*X)*(t - w*X)';
+    avgErr = cumErr/runs;
     
     % calculate how much the average error has changed and reset variables
     errRatio = avgErr/prevAvgErr;

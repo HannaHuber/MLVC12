@@ -51,11 +51,26 @@ xtrain_phi = phi(xtrain,d);
 % online LMS-learning rule (true)
 wLMS = lmsTrain(xtrain_phi, ttrain, true);
 % plot target and regression
-figure()
+fLMS = figure();
 hold on
 plot(x,y)
 plot(xtrain,ttrain,'*g')
 %plot the polynom of LMS (w are the coefficients)
 plot(x,polyval(fliplr(wLMS),x),'r')
 %plot(xtrain,wLMS*xtrain_phi,'r')
+hold off
 legend('original','trainingsset','LMS')
+%printPDF(fLMS,'LMS')
+
+% closed form (false)
+wClosed = lmsTrain(xtrain_phi, ttrain, false);
+% plot target and regression
+fLMS = figure();
+hold on
+plot(x,y)
+plot(xtrain,ttrain,'*g')
+%plot the polynom of the closed form (w are the coefficients)
+plot(x,polyval(fliplr(wClosed),x),'r')
+hold off
+legend('original','trainingsset','closedForm')
+%printPDF(fLMS,'closed')
