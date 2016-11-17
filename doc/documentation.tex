@@ -197,8 +197,8 @@ The closed form is calculated by updating the weight vector, determined by all N
 \begin{itemize}	
 	\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
 \end{itemize}
-The learning rate $\gamma$ controls the influence of the single data points. Using high learning rates during online learning,  the regression reacts quickly and moves towards the current data point. This is disadvantageous if the current data point is an outlier. Consequently, if the learning rate is too high, the number of iterations until convergence increases as well. The same problem occurs, if the rate is too low and the regression reacts too slowly. For this assignment, we observed that a learning rate of $\gamma=0.0001$ is a suitable choice.
-
+The learning rate $\gamma$ controls the influence of the single data points. Using high learning rates during online learning,  the regression reacts quickly and moves towards the current data point. This is disadvantageous if the current data point is an outlier. Consequently, if the learning rate is too high, the number of iterations until convergence increases as well. The same problem occurs, if the rate is too low and the regression reacts too slowly. For this assignment, we observed that a learning rate of $\gamma=0.0001$ is a suitable choice. \\
+Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact, that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
 
 \subsubsection{Model-complexity and model-selection}
 Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 16)$, while the $x_i$ remain unchanged. 
