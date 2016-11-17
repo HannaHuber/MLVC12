@@ -169,22 +169,22 @@ At the end of the setup we have:
 	\item What is the resulting weight vector when using the LMS-rule?
 \end{itemize}
 \begin{table} [tbp!]
-	\caption{Weight vector derived for the LMS-rule and of closed form}
+	\caption{Weight vector derived for the LMS-rule and for the closed form}
 	\centering
 	\label{table:wLMS}
 	\begin{tabular}{l c c c}
 		\toprule
 		& $\phi_0$ & $\phi_1$ & $\phi_2$ \\ 
 		\midrule
-%		wLMS & 0.7191 & -10.8810 & 1.6695 \\	%für sigma = 4	
-		wLMS & -0.1288 & -16.6005 & 3.7258 \\ %für sigma = 16
-		wClosed &  &  &\\
+		wLMS & -2.4164  & -6.7862  &  0.7742 \\
+		wClosed &  -2.4193  & -6.7593  &  0.7645  \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=6cm]{../figures/LMS.pdf}
+	\subfigure[]{\includegraphics[width=6cm]{../figures/LMS.pdf}}
+	\subfigure[]{\includegraphics[width=6cm]{../figures/closed.pdf}}
 	\caption{Optimization using the LMS-rule}
 	\label{fig:122_LMS}
 \end{figure}
