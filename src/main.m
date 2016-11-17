@@ -5,7 +5,7 @@
 
 %clear all
 close all
-clc
+%clc
 
 %% Task 1.1.1 Reading data
 % read in data -> new .csv file written by .py-file
@@ -35,7 +35,7 @@ x = (0:0.1:5);
 y = 2*x.^2-12*x+1;
 trainingIdx = (1:8:51);
 N = length(trainingIdx);
-noise = normrnd(0,16,size(trainingIdx));
+noise = normrnd(0,4,size(trainingIdx));
 % training data
 xtrain = x(trainingIdx);
 ttrain = y(trainingIdx)+noise;
@@ -49,7 +49,7 @@ xtrain_phi = phi(xtrain,d);
 
 %% Task 1.2.2 Optimization: LMS-learning rule vs. closed form
 % online LMS-learning rule (true)
-wLMS = lmsTrain(xtrain_phi, ttrain, true);
+wLMS = lmsTrain(xtrain_phi, ttrain, true)
 % plot target and regression
 fLMS = figure();
 hold on
@@ -60,17 +60,17 @@ plot(x,polyval(fliplr(wLMS),x),'r')
 %plot(xtrain,wLMS*xtrain_phi,'r')
 hold off
 legend('original','trainingsset','LMS')
-%printPDF(fLMS,'../figures/LMS')
+printPDF(fLMS,'../figures/LMS')
 
 % closed form (false)
-wClosed = lmsTrain(xtrain_phi, ttrain, false);
+wClosed = lmsTrain(xtrain_phi, ttrain, false)
 % plot target and regression
 fLMS = figure();
 hold on
 plot(x,y)
 plot(xtrain,ttrain,'*g')
-%plot the polynom of the closed form (w are the coefficients)
+% plot the polynom of the closed form (w are the coefficients)
 plot(x,polyval(fliplr(wClosed),x),'r')
 hold off
 legend('original','trainingsset','closedForm')
-%printPDF(fLMS,'../figures/closed')
+printPDF(fLMS,'../figures/closed')
