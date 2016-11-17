@@ -169,14 +169,14 @@ At the end of the setup we have:
 	\item What is the resulting weight vector when using the LMS-rule?
 \end{itemize}
 \begin{table} [tbp!]
-	\caption{Weight vector derived for the LMS-rule and for the closed form}
+	\caption{Weight vector derived for the LMS-rule (online and closed form)}
 	\centering
 	\label{table:wLMS}
 	\begin{tabular}{l c c c}
 		\toprule
 		& $\phi_0$ & $\phi_1$ & $\phi_2$ \\ 
 		\midrule
-		wLMS & -2.4164  & -6.7862  &  0.7742 \\
+		wOnline & -2.4164  & -6.7862  &  0.7742 \\
 		wClosed &  -2.4193  & -6.7593  &  0.7645  \\
 		\bottomrule
 	\end{tabular}
@@ -185,10 +185,10 @@ At the end of the setup we have:
 	\centering
 	\subfigure[]{\includegraphics[width=6cm]{../figures/LMS.pdf}}
 	\subfigure[]{\includegraphics[width=6cm]{../figures/closed.pdf}}
-	\caption{Optimization using the LMS-rule}
+	\caption{Optimization using the LMS-rule with online learning (a) and in closed form (b)}
 	\label{fig:122_LMS}
 \end{figure}
-The values of the resulting weight vector are summarized in Tab.~\ref{table:wLMS} and the corresponding curve plotted in Fig.~\ref{fig:122_LMS}.
+The values of the resulting weight vector are summarized in Tab.~\ref{table:wLMS} and the corresponding curves plotted in Fig.~\ref{fig:122_LMS}.
 
 \begin{itemize}
 	\item How can you determine the optimal ${\mathbf w}^*$ in closed form? Compare ${\mathbf w}^*$ with the outcome of the LMS-rule training.
@@ -198,7 +198,7 @@ The closed form is calculated by updating the weight vector, determined by all N
 	\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
 \end{itemize}
 The learning rate $\gamma$ controls the influence of the single data points. Using high learning rates during online learning,  the regression reacts quickly and moves towards the current data point. This is disadvantageous if the current data point is an outlier. Consequently, if the learning rate is too high, the number of iterations until convergence increases as well. The same problem occurs, if the rate is too low and the regression reacts too slowly. For this assignment, we observed that a learning rate of $\gamma=0.0001$ is a suitable choice. \\
-Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact, that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
+Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
 
 \subsubsection{Model-complexity and model-selection}
 Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 16)$, while the $x_i$ remain unchanged. 
