@@ -10,6 +10,9 @@
 %\usepackage[T1]{fontenc}
 \usepackage{booktabs} % For professional looking tables
 \usepackage{multirow}
+
+\usepackage[section]{placeins}
+
 \title{\bf 183.605 \\ Machine Learning for Visual Computing \\ Assignment 1}
 \author{Group 12: \\
 	Hanna Huber (0925230) \\ Lena Trautmann (1526567) \\ Elisabeth Wetzer ()}
@@ -29,6 +32,8 @@
 \subsection{Part 1: Binary classification and the perceptron}
 
 \subsubsection{Reading data}\label{sec:readdata}
+%The file perceptrondata.csv contains 200 rows with 3 entries as ASCII-text. The left two columns represent the coordinates of two-dimensional observations. The right column holds the target-values  (1 oder -1) indicating the class assignments of the vectors.
+
 \noindent {\bf Tasks:}
 \begin{itemize}
 \item Read the data using functions of your programming language resp. simulation software.
@@ -46,7 +51,7 @@ First, we wrote a new .csv-file with our .py-script to delete all extra blanks. 
 	\caption{Plot of the input vectors with the target value visualized by colour.}
 	\label{fig:inputVectors}
 \end{figure}
-Fig.~\ref{fig:inputVectors} shows the input vectors.
+Figure~\ref{fig:inputVectors} shows the input vectors.
 
 \begin{itemize}
 \item Use the feature transformation $(x_1,x_2) \rightarrow (x_1^2,x_2^2)$ and plot the data in the new feature space. The data should now be linearly separable.
@@ -59,29 +64,41 @@ Fig.~\ref{fig:inputVectors} shows the input vectors.
 	\caption{Plot of the transformed input vectors with the target value visualized by colour.}
 	\label{fig:transformedInputVectors}
 \end{figure}
-Fig.~\ref{fig:transformedInputVectors} shows the transformed input vectors.
+Figure~\ref{fig:transformedInputVectors} shows the transformed input vectors.
 
 \subsubsection{Perceptron training algorithm}
-The function
-\begin{center}
-\texttt{y = perc(w,X)}.
-\end{center}
-simulates a perceptron. The first argument is the weight vector ${\bf w}$ and the second argument is a matrix with input vectors in its columns ${\bf X}$. The output ${\bf y}$ is a binary vector with class labels 1 or -1.
-
-The function 
-\begin{center}
-\texttt{w = percTrain(X,t,maxIts,online)}.
-\end{center} 
-returns a weight vector ${\bf w}$ corresponding to the decision boundary separating the input vectors in ${\bf X}$ according to their target values ${\bf t}$.
-
-The argument $\texttt{maxIts}$ determines an upper limit for iterations of the gradient based optimization procedure. If this upper limit is reached before a solution vector is found, the function returns the current ${\bf w}$, otherwise it returns the solution weight vector. \texttt{online} is \emph{true} if the \emph{online}-version of the optimization procedure is to be used or \emph{false} for the \emph{batch}-version. 
-\vspace{2mm}
+%The function
+%\begin{center}
+%\texttt{y = perc(w,X)}.
+%\end{center}
+%simulates a perceptron. The first argument is the weight vector ${\bf w}$ and the second argument is a matrix with input vectors in its columns ${\bf X}$. The output ${\bf y}$ is a binary vector with class labels 1 or -1.
+%
+%The function 
+%\begin{center}
+%\texttt{w = percTrain(X,t,maxIts,online)}.
+%\end{center} 
+%returns a weight vector ${\bf w}$ corresponding to the decision boundary separating the input vectors in ${\bf X}$ according to their target values ${\bf t}$.
+%
+%The argument $\texttt{maxIts}$ determines an upper limit for iterations of the gradient based optimization procedure. If this upper limit is reached before a solution vector is found, the function returns the current ${\bf w}$, otherwise it returns the solution weight vector. \texttt{online} is \emph{true} if the \emph{online}-version of the optimization procedure is to be used or \emph{false} for the \emph{batch}-version. 
+%\vspace{2mm}
+%
 
 \noindent {\bf Tasks:}
 \begin{itemize}
-\item The functions \texttt{percTrain} and \texttt{perc} are implemented in the files \texttt{percTrain.m} and \texttt{perc.m}, respectively.
-
-\item Figures~\ref{fig:origOL},~\ref{fig:transOL},~\ref{fig:origBA},~\ref{fig:transBA} show perceptron learning after the first iteration, half of the iterations needed and after the final iteration. They show that the algorithm converges much faster using online learning (see Figures~\ref{fig:origOL} and~\ref{fig:transOL}). Figures~\ref{fig:transOL} and~\ref{fig:transBA} illustrate how the transformation into the feature space of basis functions makes the data linearly separable. The non-linear decision boundary in the original data space is obtained by applying the inverse transformation to the linear decision boundary in feature space.
+\item Implement both functions. Use homogeneous coordinates and the corresponding augmented weight vector ${\mathbf w}\in\mathbb{R}^3$.
+\end{itemize}
+The functions \texttt{percTrain} and \texttt{perc} are implemented in the files \texttt{percTrain.m} and \texttt{perc.m}, respectively.
+\begin{itemize}
+	\item Plot the data and decision boundary in $\mathbb{R}^2$, both in the original data space (see e.g. Figure~\ref{fig:perceptron}) and in the feature space of basis functions, each at three different stages of the training: after the first iteration, after approximately half of the required iterations, and after convergence.
+\end{itemize}
+\begin{figure}[!h]
+	\begin{center}
+		\centering
+		\includegraphics[width=6cm]{../figures/perceptron.pdf}
+	\end{center}
+	\caption{\label{fig:perceptron}Plot of the decision boundary in the original data space found by the perceptron (green curve) together with labelled data points.}
+\end{figure}
+Figures~\ref{fig:origOL},~\ref{fig:transOL},~\ref{fig:origBA},~\ref{fig:transBA} show perceptron learning after the first iteration, half of the iterations needed and after the final iteration. They show that the algorithm converges much faster using online learning (see Figures~\ref{fig:origOL} and~\ref{fig:transOL}). Figures~\ref{fig:transOL} and~\ref{fig:transBA} illustrate how the transformation into the feature space of basis functions makes the data linearly separable. The non-linear decision boundary in the original data space is obtained by applying the inverse transformation to the linear decision boundary in feature space.
 \begin{figure}[h!]
 \centering
 	\subfigure[]{\includegraphics[width=5cm]{../figures/originalOnlineIt1.pdf}}
@@ -114,17 +131,12 @@ The argument $\texttt{maxIts}$ determines an upper limit for iterations of the g
 \caption{Perceptron decision boundary in the feature space of basis functions at iterations \#1, \#342 and \#685 of batch learning.}
 \label{fig:transBA}
 \end{figure}
-\item The weight vector is initialized as ${\bf w} = {\bf 0}$. This way, the learning rate $\gamma$ merely scales the weight vector ${\bf w^{(j)}} = \gamma \sum_{i\in M}x_it_i$, where $j$ denotes the current iteration and $M$ the set of data points that have been misclassified and used to update {\bf w} up to this point. As $(\gamma_1 \sum_{i\in M}x_it_i)^T (x_kt_k) \leq 0 \Leftrightarrow  (\gamma_2 \sum_{i\in M}x_it_i)^T (x_kt_k) \leq 0$ for any $\gamma_1, \gamma_2 > 0$, the classification of the $k$th data point and thus the learning behaviour of the perceptron are not influenced by the learning rate.
+\begin{itemize}
+\item Initialize ${\bf w} = {\bf 0}$. What is the influence of the learning rate?
 \end{itemize}
+The weight vector is initialized as ${\bf w} = {\bf 0}$. This way, the learning rate $\gamma$ merely scales the weight vector ${\bf w^{(j)}} = \gamma \sum_{i\in M}x_it_i$, where $j$ denotes the current iteration and $M$ the set of data points that have been misclassified and used to update {\bf w} up to this point. As $(\gamma_1 \sum_{i\in M}x_it_i)^T (x_kt_k) \leq 0 \Leftrightarrow  (\gamma_2 \sum_{i\in M}x_it_i)^T (x_kt_k) \leq 0$ for any $\gamma_1, \gamma_2 > 0$, the classification of the $k$th data point and thus the learning behaviour of the perceptron are not influenced by the learning rate.
 
-\begin{figure}[!h]
-\begin{center}
-\centering
-	\includegraphics[width=6cm]{../figures/perceptron.pdf}
-\end{center}
-\caption{\label{fig:perceptron}Plot of the decision boundary in the original data space found by the perceptron (green curve) together with labelled data points.}
-\end{figure}
-
+\FloatBarrier
 \subsection{Part 2: Linear basis function models for regression}
 
 %Aim of this exercise to deepen understanding of parameter optimization of error function while taking into account the relation of model complexity (in this case it corresponds to the number of basis functions used) and the expected error. Since this expected value (the mean squared error) is a theoretical quantity, it has to be estimated by the average of the error of predictions resulting from many training runs with different randomly generated target values.
@@ -183,17 +195,17 @@ At the end of the setup we have:
 \end{table}
 \begin{figure}[!h]
 	\centering
-	\subfigure[]{\includegraphics[width=6cm]{../figures/LMS.pdf}}
-	\subfigure[]{\includegraphics[width=6cm]{../figures/closed.pdf}}
+	\subfigure[\label{fig:122_LMS_online}]{\includegraphics[width=6cm]{../figures/LMS.pdf}}
+	\subfigure[\label{fig:122_LMS_closed}]{\includegraphics[width=6cm]{../figures/closed.pdf}}
 	\caption{Optimization using the LMS-rule with online learning (a) and in closed form (b)}
 	\label{fig:122_LMS}
 \end{figure}
-The values of the resulting weight vector are summarized in Tab.~\ref{table:wLMS} and the corresponding curves plotted in Fig.~\ref{fig:122_LMS}.
+The values of the resulting weight vector is summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_online}.
 
 \begin{itemize}
 	\item How can you determine the optimal ${\mathbf w}^*$ in closed form? Compare ${\mathbf w}^*$ with the outcome of the LMS-rule training.
 \end{itemize}
-The closed form is calculated by updating the weight vector, determined by all N points, in one step.
+The closed form is calculated by updating the weight vector, determined by all N points, in one step. The resulting values are also summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_closed}.
 \begin{itemize}	
 	\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
 \end{itemize}
