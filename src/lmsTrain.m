@@ -3,19 +3,19 @@ function [ w, runs ] = lmsTrain( X, t , gamma, online)
 %   Input:
 %       X       ...     matrix with input vectors in its columns
 %       t       ...     vector with target values
+%       gamma   ...     learning rate
 %       online  ...     true/false for online/batch optimization                
 %   Output:
 %       w       ...     augmented weight vector (w(1) = bias) corresponding 
 %                       to Sum of Squared Error of weighted values and their target
+%       runs    ...     number of iterations after which the algorithm
+%                       terminates
 
 % get data dimensions
 [D, N] = size(X);
 
 % initialize weight vector
 w = zeros(1,D);
-
-% initialize learning rate
-%gamma = 0.0001;
 
 % execution nr
 runs = 0;
@@ -24,15 +24,12 @@ maxIter = 10000;
 % error
 cumErr = 0;
 prevAvgErr = 10000;
-errDiff = 1;
-wDiff = inf;
-epsilon = 0.0001;
-wstar = (pinv(X')*t')';
-errRatio =0;
+errRatio = 0;
+epsilon = 0.00001;
 
 % Learn until average error over a number of epochs no longer changes
 while ((runs < maxIter) && errRatio < 1-epsilon)
-    wold = w;
+
     % update w online
     if online
         for i=1:N         
@@ -42,20 +39,15 @@ while ((runs < maxIter) && errRatio < 1-epsilon)
         
     % update w in batch form    
     else 
-        w = w + gamma*(X*(t - w*X)')';   %Slide 95+96 : X*X'*w'-X*t'  
+        w = w + gamma*(X*(t - w*X)')';  
     end %if
-    % eukledian norm
-    wDiff= norm(w-wold);
-    %wDiff = norm(w-wstar);
-    
+        
     % update average error and iteration counter
     runs = runs + 1;
-    
     cumErr = cumErr + 0.5*(t - w*X)*(t - w*X)';
     avgErr = cumErr/runs;
     
     % calculate how much the average error has changed and reset variables
-    errDiff = abs(avgErr-prevAvgErr);
     errRatio = (avgErr+1)/(prevAvgErr+1);
     prevAvgErr = avgErr;
 

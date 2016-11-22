@@ -10,6 +10,9 @@ function [ w, itCount ] = percTrain( X, t, maxIts, online )
 %       w       ...     augmented weight vector (w(1) = bias) corresponding 
 %                       to decision boundary separating the input vectors 
 %                       according to their target values
+%       itCount ...     number of iterations after which the algorithm
+%                       terminates
+
 
     % homogeneous coords (X(1, :) = 1)
     [d, n] = size(X);
@@ -52,21 +55,19 @@ function [ w, itCount ] = percTrain( X, t, maxIts, online )
                 h=scatterData([XTransformed(2:end, :)' t], 'x^2', 'y^2', strcat('decision boundary after ', num2str(itCount), ' iteration(s) of online learning'));
                 hold on
                 plotDecisionBoundary(w, xyMinTransformed(1), xyMinTransformed(2), xyMaxTransformed(1), xyMaxTransformed(2), false);
-                printPDF(h, strcat('../figures/transformedOnlineIt', num2str(itCount)));
+                %printPDF(h, strcat('../figures/transformedOnlineIt', num2str(itCount)));
                 
                 h=scatterData([(X(2:end, :)') t], 'x', 'y', strcat('decision boundary after ', num2str(itCount), ' iteration(s) of online learning'));
                 hold on
                 plotDecisionBoundary(w, xyMinTransformed(1), xyMinTransformed(2), xyMaxTransformed(1), xyMaxTransformed(2), true);
-                printPDF(h, strcat('../figures/originalOnlineIt', num2str(itCount)));
+                %printPDF(h, strcat('../figures/originalOnlineIt', num2str(itCount)));
             end
 
         end
     
     % batch learning
     else
-        
-        %gamma = gamma/100;
-        
+               
         % multiplay input vectors with labels for later updates
         samples = XTransformed .* repmat(t', d+1, 1);
         
@@ -90,12 +91,12 @@ function [ w, itCount ] = percTrain( X, t, maxIts, online )
                 h=scatterData([XTransformed(2:end, :)' t], 'x^2', 'y^2', strcat('decision boundary after ', num2str(itCount), ' iteration(s) of batch learning'));
                 hold on
                 plotDecisionBoundary(w, xyMinTransformed(1), xyMinTransformed(2), xyMaxTransformed(1), xyMaxTransformed(2), false);
-                printPDF(h, strcat('../figures/transformedBatchIt', num2str(itCount)));
+                %printPDF(h, strcat('../figures/transformedBatchIt', num2str(itCount)));
                 
                 h=scatterData([(X(2:end, :)') t], 'x', 'y', strcat('decision boundary after ', num2str(itCount), ' iteration(s) of batch learning'));
                 hold on
                 plotDecisionBoundary(w, xyMinTransformed(1), xyMinTransformed(2), xyMaxTransformed(1), xyMaxTransformed(2), true);
-                printPDF(h, strcat('../figures/originalBatchIt', num2str(itCount)));
+                %printPDF(h, strcat('../figures/originalBatchIt', num2str(itCount)));
             end
             
         end
