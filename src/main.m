@@ -49,7 +49,22 @@ xtrain_phi = phi(xtrain,d);
 
 %% Task 1.2.2 Optimization: LMS-learning rule vs. closed form
 % online LMS-learning rule (true)
-wLMS = lmsTrain(xtrain_phi, ttrain, true)
+
+gamma = 0.0001:0.0001:0.005;
+runsLMS = zeros(size(gamma));
+for i = 1:length(gamma)   
+    [~,runs] = lmsTrainGamma(xtrain_phi, ttrain,gamma(i), true);    
+    runsLMS(i)=runs;
+end
+h=figure();
+plot(gamma,runsLMS)
+xlabel('gamma')
+ylabel('no of iterations')
+[~,minIdx] = min(runsLMS);
+%printPDF(h,'bestGamma');
+
+
+[wLMS, finalRuns] = lmsTrain(xtrain_phi, ttrain,gamma(minIdx), true)
 % plot target and regression
 fLMS = figure();
 hold on
@@ -60,10 +75,10 @@ plot(x,polyval(fliplr(wLMS),x),'r')
 %plot(xtrain,wLMS*xtrain_phi,'r')
 hold off
 legend('original','trainingsset','LMS')
-printPDF(fLMS,'../figures/LMS')
+%printPDF(fLMS,'../figures/LMS')
 
-% closed form (false)
-wClosed = lmsTrain(xtrain_phi, ttrain, false)
+% closed form
+wClosed = (pinv(xtrain_phi')*ttrain')'
 % plot target and regression
 fLMS = figure();
 hold on
@@ -73,4 +88,4 @@ plot(xtrain,ttrain,'*g')
 plot(x,polyval(fliplr(wClosed),x),'r')
 hold off
 legend('original','trainingsset','closedForm')
-printPDF(fLMS,'../figures/closed')
+%printPDF(fLMS,'../figures/closed')

@@ -182,15 +182,15 @@ At the end of the setup we have:
 	\item What is the resulting weight vector when using the LMS-rule?
 \end{itemize}
 \begin{table} [tbp!]
-	\caption{Weight vector derived for the LMS-rule (online and closed form)}
+	\caption{Weight vector derived for the online LMS-rule and closed form}
 	\centering
 	\label{table:wLMS}
 	\begin{tabular}{l c c c}
 		\toprule
 		& $\phi_0$ & $\phi_1$ & $\phi_2$ \\ 
 		\midrule
-		wOnline & -2.4164  & -6.7862  &  0.7742 \\
-		wClosed &  -2.4193  & -6.7593  &  0.7645  \\
+		wLMS & 3.0014  & -12.5938  &  1.9854 \\
+		wClosed &  3.4691  & -12.3838  &  1.8583  \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -206,18 +206,9 @@ The values of the resulting weight vector is summarized in Table~\ref{table:wLMS
 \begin{itemize}
 	\item How can you determine the optimal ${\mathbf w}^*$ in closed form? Compare ${\mathbf w}^*$ with the outcome of the LMS-rule training.
 \end{itemize}
-The closed form is calculated by updating the weight vector, determined by all N points, in one step. The resulting values are also summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_closed}.
-\begin{itemize}	
-	\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
-\end{itemize}
-The learning rate $\gamma$ controls the influence of the single data points. Using high learning rates during online learning,  the regression reacts quickly and moves towards the current data point. This is disadvantageous if the current data point is an outlier. Consequently, if the learning rate is too high, the number of iterations until convergence increases as well. The same problem occurs, if the rate is too low and the regression reacts too slowly. For this assignment, we observed that a learning rate of $\gamma=0.0001$ is a suitable choice. \\
-Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
-
-\subsubsection{Model-complexity and model-selection}
-Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 4)$, while the $x_i$ remain unchanged. \\
-Assuming that a deterministic function $y(\mathbf{x}, \mathbf{w})$ specifies the target variable $t$. Varying the only the $t_i$ according to $\mathcal{N}(\mu = y_i,\sigma = 4)$, we get $t=y(\mathbf{x}, \mathbf{w}) + \epsilon$, where $\epsilon$ is a random variable $\sim \mathcal{N}(\mu = 0,\sigma = 16)$.\\
+Assuming that a deterministic function $y(\mathbf{x}, \mathbf{w})$ specifies the target variable $t$. Varying the only the $t_i$ according to $\mathcal{N}(\mu = y_i,\sigma = 4)$, we get $t=y(\mathbf{x}, \mathbf{w}) + \epsilon$, where $\epsilon$ is a random variable $\sim \mathcal{N}(\mu = 0,\sigma = 4)$.\\
 We get
-$$p(t| \mathbf{x}, \mathbf{w}, \frac{1}{16}) = \mathcal{N}(t|y(\mathbf{x}, \mathbf{w}), 4)$$
+$$p(t| \mathbf{x}, \mathbf{w}, \frac{1}{4}) = \mathcal{N}(t|y(\mathbf{x}, \mathbf{w}), 4)$$
 The sum of squares error function is definied as in \cite{Bishop}:
 $$E(\mathbf{w})=\frac{1}{2} \sum_{n=1} ^N (t_n- \mathbf{w}^T \mathbf{\phi}(\mathbf{x_n}))^2$$
 To minimize the error function, the gradient is set to zero:
@@ -227,8 +218,29 @@ $$ \mathbf{w}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{t}$$
 where the entries of $\mathbf{X} \in \mathbb{R}^{N \times M}$ are given by $\phi_j(\mathbf{x}_n)$. \\
 $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ is known to be the Moore-Penrose-inverse of $\mathbf{X}$ and can be calculated in Matlab by \verb+pinv(X)+. \\
 
+The resulting values are also summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_closed}. The values of w for the closed form differ, as they are the exact evaluation, whereas the online-LMS rule only approximates wClosed.
+
+\begin{itemize}	
+	\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
+\end{itemize}
+\begin{figure}[!h]
+	\begin{center}
+		\centering
+		\includegraphics[width=6cm]{../figures/bestGamma.pdf}
+	\end{center}
+	\caption{\label{fig:bestGamma} Plot of the number of iterations for gammas between 0.0001 and 0.005.}
+\end{figure}
+As one can see in Figure~\ref{fig:bestGamma}, the number of iterations is large for a small gamma. As gamma is increased, the number of necessary iterations decreases. If gamma is chosen too large, the LMS-rule does not converge any more.
+Therefore, we chose a gamma of 0.0016, according to the maximum gamma with the lowest number of iterations. 
+%The learning rate $\gamma$ controls the influence of the single data points. Using high learning rates during online learning,  the regression reacts quickly and moves towards the current data point. This is disadvantageous if the current data point is an outlier. Consequently, if the learning rate is too high, the number of iterations until convergence increases as well. The same problem occurs, if the rate is too low and the regression reacts too slowly. For this assignment, we observed that a learning rate of $\gamma=0.0001$ is a suitable choice. \\
+%Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
+
+\subsubsection{Model-complexity and model-selection}
+Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 4)$, while the $x_i$ remain unchanged. \\
+
+
 \vspace{2mm}
-\noindent {\bf Tasks}\footnote{In all tasks $\mathcal{E}$ refers to the expected value with respect to the random variable ${\mathbf w^*}$, i.e. $\mathcal{E} \equiv \mathcal{E}_{\mathbf w^*}$}:
+\noindent {\bf Tasks}:
 \begin{itemize}
 \item Select a fixed $x'$, which is not an observation of the training set, but lies between two observations. In the following trials $x' = 2$ was chosen.
 \item Estimate the \emph{mean squared error} 

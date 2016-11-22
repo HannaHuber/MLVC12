@@ -26,12 +26,12 @@ cumErr = 0;
 prevAvgErr = 10000;
 errDiff = 1;
 wDiff = inf;
-epsilon = 0.0001;
+epsilon = 0.5;
 wstar = (pinv(X')*t')';
 errRatio =0;
 
 % Learn until average error over a number of epochs no longer changes
-while ((runs < maxIter) && errRatio < 1-epsilon)
+while ((runs < maxIter) && wDiff > epsilon) %errRatio < 1-epsilon)
     wold = w;
     % update w online
     if online
@@ -45,8 +45,7 @@ while ((runs < maxIter) && errRatio < 1-epsilon)
         w = w + gamma*(X*(t - w*X)')';   %Slide 95+96 : X*X'*w'-X*t'  
     end %if
     % eukledian norm
-    wDiff= norm(w-wold);
-    %wDiff = norm(w-wstar);
+    wDiff = norm(w-wstar);
     
     % update average error and iteration counter
     runs = runs + 1;

@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{Bishop}
+Christopher~M. Bishop.
+\newblock {\em Pattern Recognition and Machine Learning}.
+\newblock Springer, 2006.
+
+\bibitem{hastie}
+Friedman J., Hastie T., and Tibshirani R.
+\newblock {\em The Elements of Statistical Learning}.
+\newblock Springer Series in Statistics, 2009.
+
+\end{thebibliography}

@@ -32,7 +32,8 @@
 \newlabel{fig:transBA}{{7}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Part 2: Linear basis function models for regression}{3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1}Experimental setup}{3}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Weight vector derived for the LMS-rule (online and closed form)}}{4}}
+\citation{Bishop}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Weight vector derived for the online LMS-rule and closed form}}{4}}
 \newlabel{table:wLMS}{{1}{4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.2}Optimization: \emph  {LMS}-learning rule vs. closed form}{4}}
 \newlabel{fig:122_LMS_online}{{8(a)}{4}}
@@ -43,4 +44,19 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{4}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{4}}
 \newlabel{fig:122_LMS}{{8}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.3}Model-complexity and model-selection}{4}}
+\citation{hastie}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  Plot of the number of iterations for gammas between 0.0001 and 0.005.}}{5}}
+\newlabel{fig:bestGamma}{{9}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.3}Model-complexity and model-selection}{5}}
+\bibdata{lit}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  The expected value of the mean squared error, the bias and the variance against $d$ for a fixed $x'=2$ evaluated for 2000 trials, where $d$ denotes the dimension of the basis functions model}}{6}}
+\newlabel{fig:NonReg}{{10}{6}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Estimated MSE, Variance and Bias of non-regularized Model}}{6}}
+\newlabel{table:EvalD}{{2}{6}}
+\bibcite{Bishop}{1}
+\bibcite{hastie}{2}
+\bibstyle{unsrt}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The expected value of the mean squared error, the bias and the variance against the index of $\lambda $ for a fixed $x'=2$ evaluated for 2000 trials, where $\lambda $ denotes the weight decay parameter and is considered $\qopname  \relax o{exp}( \text  {index} - 4)$}}{7}}
+\newlabel{fig:Reg}{{11}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Estimated MSE, Variance and Bias of regularized Model}}{7}}
+\newlabel{table:EvalD}{{3}{7}}
