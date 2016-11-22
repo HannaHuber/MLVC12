@@ -201,7 +201,7 @@ At the end of the setup we have:
 	\caption{Optimization using the LMS-rule with online learning (a) and in closed form (b)}
 	\label{fig:122_LMS}
 \end{figure}
-The values of the resulting weight vector is summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_online}.
+The values of the resulting weight vector are summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_online}.
 
 \begin{itemize}
 	\item How can you determine the optimal ${\mathbf w}^*$ in closed form? Compare ${\mathbf w}^*$ with the outcome of the LMS-rule training.
@@ -218,7 +218,7 @@ $$ \mathbf{w}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{t}$$
 where the entries of $\mathbf{X} \in \mathbb{R}^{N \times M}$ are given by $\phi_j(\mathbf{x}_n)$. \\
 $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ is known to be the Moore-Penrose-inverse of $\mathbf{X}$ and can be calculated in Matlab by \verb+pinv(X)+. \\
 
-The resulting values are also summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_closed}. The values of w for the closed form differ, as they are the exact evaluation, whereas the online-LMS rule only approximates wClosed.
+The resulting values are also summarized in Table~\ref{table:wLMS} and the corresponding curve plotted in Figure~\ref{fig:122_LMS_closed}. The values of $\mathbf{w}$ for the closed form differ, as they are the exact evaluation, whereas the online-LMS rule only approximates $\mathbf{wClosed}$.
 
 \begin{itemize}	
 	\item What is the influence of $\gamma$? Which value for $\gamma$ represents a good tradeoff between number of iterations and convergence? 
@@ -228,10 +228,10 @@ The resulting values are also summarized in Table~\ref{table:wLMS} and the corre
 		\centering
 		\includegraphics[width=6cm]{../figures/bestGamma.pdf}
 	\end{center}
-	\caption{\label{fig:bestGamma} Plot of the number of iterations for gammas between 0.0001 and 0.005.}
+	\caption{\label{fig:bestGamma} Plot of the number of iterations for $\gamma$ between 0.0001 and 0.005.}
 \end{figure}
-As one can see in Figure~\ref{fig:bestGamma}, the number of iterations is large for a small gamma. As gamma is increased, the number of necessary iterations decreases. If gamma is chosen too large, the LMS-rule does not converge any more.
-Therefore, we chose a gamma of 0.0016, according to the maximum gamma with the lowest number of iterations. 
+As one can see in Figure~\ref{fig:bestGamma}, the number of iterations is large for a small $\gamma$. As $\gamma$ is increased, the number of necessary iterations decreases. If $\gamma$ is chosen too large, the LMS-rule does not converge any more.
+Therefore, we chose $\gamma=0.0016$, according to the maximum value for $\gamma$  with the lowest number of iterations. 
 %The learning rate $\gamma$ controls the influence of the single data points. Using high learning rates during online learning,  the regression reacts quickly and moves towards the current data point. This is disadvantageous if the current data point is an outlier. Consequently, if the learning rate is too high, the number of iterations until convergence increases as well. The same problem occurs, if the rate is too low and the regression reacts too slowly. For this assignment, we observed that a learning rate of $\gamma=0.0001$ is a suitable choice. \\
 %Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
 
