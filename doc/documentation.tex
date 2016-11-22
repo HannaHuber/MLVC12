@@ -10,12 +10,13 @@
 %\usepackage[T1]{fontenc}
 \usepackage{booktabs} % For professional looking tables
 \usepackage{multirow}
+\usepackage{amsmath}
 
 \usepackage[section]{placeins}
 
 \title{\bf 183.605 \\ Machine Learning for Visual Computing \\ Assignment 1}
 \author{Group 12: \\
-	Hanna Huber (0925230) \\ Lena Trautmann (1526567) \\ Elisabeth Wetzer ()}
+	Hanna Huber (0925230) \\ Lena Trautmann (1526567) \\ Elisabeth Wetzer (0726681)}
 \date{\today}
 
 
@@ -213,17 +214,28 @@ The learning rate $\gamma$ controls the influence of the single data points. Usi
 Also, the difference between online and batch learning decreases with decreasing values of $\gamma$. This is due to the fact that the weight vector $\bf{w}$ only changes very little with each data point during online learning. As a result, the update factor for subsequent datapoints is also only slightly changed. This way, the difference between adding the update factors subseuqently or at the same time is less remarkable. \\
 
 \subsubsection{Model-complexity and model-selection}
-Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 16)$, while the $x_i$ remain unchanged. 
+Determine ${\mathbf w}^*$ in closed form for 2000 different training sets, in which only the $t_i$ are varyied according to $\mathcal{N}(\mu = y_i,\sigma = 4)$, while the $x_i$ remain unchanged. \\
+Assuming that a deterministic function $y(\mathbf{x}, \mathbf{w})$ specifies the target variable $t$. Varying the only the $t_i$ according to $\mathcal{N}(\mu = y_i,\sigma = 4)$, we get $t=y(\mathbf{x}, \mathbf{w}) + \epsilon$, where $\epsilon$ is a random variable $\sim \mathcal{N}(\mu = 0,\sigma = 16)$.\\
+We get
+$$p(t| \mathbf{x}, \mathbf{w}, \frac{1}{16}) = \mathcal{N}(t|y(\mathbf{x}, \mathbf{w}), 4)$$
+The sum of squares error function is definied as in \cite{Bishop}:
+$$E(\mathbf{w})=\frac{1}{2} \sum_{n=1} ^N (t_n- \mathbf{w}^T \mathbf{\phi}(\mathbf{x_n}))^2$$
+To minimize the error function, the gradient is set to zero:
+$$\sum_{n=1}^N t_n \mathbf{\phi}(\mathbf{x}_n)^T- \mathbf{w}^T \left( \sum_{n=1} ^N \mathbf{\phi} ( \mathbf{x}_n) \mathbf{\phi} ( \mathbf{x}_n)^T \right)=0$$
+Hence the solution for $\mathbf{w}$ is obtained by:
+$$ \mathbf{w}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{t}$$
+where the entries of $\mathbf{X} \in \mathbb{R}^{N \times M}$ are given by $\phi_j(\mathbf{x}_n)$. \\
+$(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ is known to be the Moore-Penrose-inverse of $\mathbf{X}$ and can be calculated in Matlab by \verb+pinv(X)+. \\
 
 \vspace{2mm}
 \noindent {\bf Tasks}\footnote{In all tasks $\mathcal{E}$ refers to the expected value with respect to the random variable ${\mathbf w^*}$, i.e. $\mathcal{E} \equiv \mathcal{E}_{\mathbf w^*}$}:
 \begin{itemize}
-\item Select a fixed $x'$, which is not an observation of the training set, but lies between two observations (e.g. $x' = 2$)
+\item Select a fixed $x'$, which is not an observation of the training set, but lies between two observations. In the following trials $x' = 2$ was chosen.
 \item Estimate the \emph{mean squared error} 
 \begin{equation} \nonumber
 \mbox{\emph{mse}} = \mathcal{E} (f(x')-f_{\mathbf w^*}(x'))^2,
 \end{equation}i.e., the mean of the squared residuals of the models prediction $f_{\mathbf w^*}(x')$ from the true function value $f(x')$ for all $0 \leq d \leq 8$ ($d = 0$ corresponds to a constant function) using at least 2000 trials.  
-\item Estimate by the same way the quantities \emph{bias}$^2 = (f(x')-\mathcal{E} f_{\mathbf w^*}(x'))^2$ and \emph{var}$ = (f_{\mathbf w^*}(x') - \mathcal{E} f_{\mathbf w^*}(x'))^2$.
+\item Estimate by the same way the quantities \emph{bias}$^2 = (f(x')-\mathcal{E} f_{\mathbf w^*}(x'))^2$ and \emph{var}$ =\mathcal{E} (f_{\mathbf w^*}(x') - \mathcal{E} f_{\mathbf w^*}(x'))^2$.
 \item Plot \emph{mse}, \emph{bias}$^2$ and \emph{var} against $d$ together in one plot. What is the relation of the quantities?
 \item (optional) Generate the above plots only for $d=8$, but minimize instead of $E({\mathbf w})$ the regularized error function 
 \begin{equation}
@@ -231,5 +243,95 @@ E_{\lambda}({\mathbf w}) = \sum_{i = 1}^N(t_i - {\mathbf w}^T{\mathbf \Phi}(x_i)
 \end{equation} 
 i.e. ${\mathbf w}^* = \arg\min_{\mathbf w}^* E_{\lambda}({\mathbf w})$. Plot the quantities against $\lambda$ instead of $d$. Hint: The minimum can be obtained in closed form (see lecture slides). 
 \end{itemize}
+
+
+The expected value of the mean squared error $\mathcal{E} (f(x')-f_{\mathbf w^*}(x'))^2$ for two thousand trials evaluated at $x'=2$ is plotted against $d$, the number of dimensions of the linear basis function space in blue in figure \ref{fig:NonReg}. The same plot shows the bias $ (f(x')-\mathcal{E} f_{\mathbf w^*}(x'))^2$ and the variance $\mathcal{E} (f_{\mathbf w^*}(x') - \mathcal{E} f_{\mathbf w^*}(x'))^2$ in red and yellow respectively.
+As described in \cite{hastie} the expected squared error on a sample x can be decomposed by the bias and variance as follows:
+$$\mathcal{E} (f(x')-f_{\mathbf w^*}(x'))^2=(f(x')-\mathcal{E} f_{\mathbf w^*}(x'))^2+\mathcal{E} (f_{\mathbf w^*}(x') - \mathcal{E} f_{\mathbf w^*}(x'))^2 +\epsilon$$
+where $\epsilon$ is an irreducible error.\\
+
+\begin{figure}[!h]
+	\begin{center}
+		\centering
+		\includegraphics[width=6cm]{../figures/NonReg}
+		%\includegraphics[width=0.5\textwidth]{NonReg}
+	\end{center}
+	\caption{\label{fig:NonReg} The expected value of the mean squared error, the bias and the variance against $d$ for a fixed $x'=2$ evaluated for 2000 trials, where $d$ denotes the dimension of the basis functions model}
+\end{figure}
+
+This relationship is seen in figure \ref{fig:NonReg}. In higher dimensions than $d=2$ the bias becomes zero and the expected mean squared error is equal to the variance estimate. Furthermore table \ref{table:EvalD} lists the model qualities in dependence of $d$. The last column shows that the mean squared error can be decomposed into the given bias and variance up to an accuracy of $10^{-13}$, which relates to the irreducible error $\epsilon$.
+The plots in figure \ref{fig:NonReg} are conclusive with the literature: dimensionality reduction can decrease variance, but simplicity of the model introduces more bias, while adding features to the model decreases the bias, but in return increases the variance. 
+The mean squared error shows a minimum at $d=2$. The spike in the plot can be explained by the fact that the quantities were calculated for one explicit $x$ and would average out by taking the average of multiple evaluation points of the trials.
+
+\begin{table} [h]
+	\caption{Estimated MSE, Variance and Bias of non-regularized Model}
+	\centering
+	\label{table:EvalD}
+	\begin{tabular}{c c c c c}
+		\toprule
+		d &MSE &  Bias &  Variance  & MSE-(Bias+Variance)\\ 
+		\midrule
+		0& 17.51&  15.09 &  2.42   & 1.0e-13 *-0.96\\
+		1& 26.07&  23.49  &  2.57 & 1.0e-13 * 0.60 \\
+		2& 5.34&  1.10 & 5.34  &1.0e-13 * 0.07 \\
+		3& 6.02&  6.63  & 6.02  & 1.0e-13 * 0.10 \\
+		 4& 8.26&  0.00 &  8.26  & 1.0e-13 * 0.23 \\
+		 5&11.18&  0.00  &  11.17  & 1.0e-13 *-0.05  \\
+		 6& 12.60& 0.00  &  12.60  & 1.0e-13 * 0.16 \\
+		7&12.14&  0.00  &  12.14 & 1.0e-13 *-0.28\\
+		8& 12.99 &  0.00 &   12.98  & 1.0e-13 *-0.21 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+In order to control overfitting a regularization term is often added to the error function which shall be minimized to find an optimal solution. Instead of minimizing $E(\mathbf{w})=\frac{1}{2} \sum_{n=1} ^N (t_n- \mathbf{w}^T \mathbf{\phi}(\mathbf{x_n}))^2$, the modified error function $\tilde{E}(\mathbf{w})=\frac{1}{2} \sum_{n=1} ^N (t_n- \mathbf{w}^T \mathbf{\phi}(\mathbf{x_n}))^2 + \frac{1}{2} \lambda \mathbf{w}^T \mathbf{w}$ is to be minimized. There are other options to choose a regularizer than $\lambda || \mathbf{w} ||$ but it is a simple choice to demonstrate the trade off between bias and variance. This specific regularizer is called weight decay and does not effect the circumstance of the error function being quadratic and hence convex. Setting the gradient of the error function in respect to $\mathbf{w}$ to zero gives:
+$$\mathbf{w}=(\lambda \mathbf{I} + \mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^Tt$$
+where $\mathbf{I}$ denotes the identity matrix.
+As before the expected mean squared error, the bias and the variance are plotted, but only for dimension $d=8$, which introduced a large variance in the non-regularized model. Figure \ref{fig:Reg} shows the quantities against $\lambda$, where $\lambda$ is chosen to be $\exp (i-4)$, where $i$ is the index on the x-axis in the figure. For small $\lambda$ the variance dominates the mean squared error, because the model complexity is high. For greater $\lambda$, hence greater regularization, the variance is restrained, but in exchange to an increase in bias. The results of the tests are shown in table \ref{table:EvalD}. The decomposition of the mean squared error into the bias and variance terms leaves an error as small as $10^{-12}$.
+
+
+\begin{figure}[!h]
+	\begin{center}
+		\centering
+		\includegraphics[width=6cm]{../figures/Reg}
+		%\includegraphics[width=0.5\textwidth]{Reg}
+	\end{center}
+	\caption{\label{fig:Reg}The expected value of the mean squared error, the bias and the variance against the index of $\lambda$ for a fixed $x'=2$ evaluated for 2000 trials, where $\lambda$ denotes the weight decay parameter and is considered $\exp ( \text{index} - 4)$}
+\end{figure}
+
+
+
+
+\begin{table} [h]
+	\caption{Estimated MSE, Variance and Bias of regularized Model}
+	\centering
+	\label{table:EvalD}
+	\begin{tabular}{c c c c c}
+		\toprule
+		$\lambda$ & MSE &  Bias &  Variance  & MSE-(Bias+Variance)\\ 
+		\midrule
+		 $\exp(-3)$ & 10.70&  0.04 &  10.66   & 1.0e-12 *-0.01\\
+		 $\exp(-2)$ & 10.44&  0.08  &  10.36 & 1.0e-12 *-0.04 \\
+		 $\exp(-1)$ & 10.25&  0.07 & 10.17  &1.0e-12 *  0.02 \\
+		 1 & 9.90&  0.03  & 9.87  & 1.0e-12 * 0.01 \\
+		 $\exp(1)$ &  9.23&  0.02 & 9.21  & 1.0e-12 * 0.01 \\
+		 $\exp(2)$ & 8.64&  0.83  &  7.81 & 1.0e-12 * 0.01  \\
+		 $\exp(3)$ &  12.08& 6.62  &  5.46  & 1.0e-12 *-0.15 \\
+		$\exp(4)$ & 28.04&  25.03  &  3.01 & 1.0e-12 *-0.16\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+
+
+
+ \bibliography{lit}
+ \bibliographystyle{unsrt}
+
+
+
+
 
 \end{document}
