@@ -13,18 +13,20 @@ yRange = [0 100];                                                           % ra
 
 % plot data with class labels
 h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
+%printPDF(h, '../figures/linearData.png');
 
 % train support vector machine
-alpha = trainSVM(X, t);
+alpha = trainSVM(X, t, false);
 
 % find support vectors
 idxSV = find(alpha>1e-10);
 h = scatterData([X', t], 'x', 'y', 'Support Vectors');
 hold on
 plot(X(1,idxSV), X(2,idxSV), 'bo');
+%printPDF(h, '../figures/sv.png');
 
-
-
+%% 1.2 the kernel trick
+% write the rbfkernel function and use differen values for sigma
 
 
 
