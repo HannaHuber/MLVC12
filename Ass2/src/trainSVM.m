@@ -1,8 +1,9 @@
-function [ alpha ] = trainSVM( X, t )
+function [ alpha ] = trainSVM( X, t ,kernel)
 %TRAINSVM trains a support vector machine (svm)
 %   Input:
 %   X   ...     2xN matrix of N 2D training samples
 %   t   ...     Nx1 vector of corresponding class labels
+%   kernel ...  boolean: 0 = no kernel used; 1 = RBF-kernel used.
 %   Output:
 %   alpha   ...     Nx1 vector of lagrangian multipliers defining svm
 %                   alpha(i) > 0 if X(:, i) is a support vector
@@ -20,8 +21,12 @@ function [ alpha ] = trainSVM( X, t )
 %       lb <= x <= ub
 
 % define constraint parameters  (negative for minimization)
-H = diag(t) * (X') * X * diag(t);
-% H = (t'*t).* ((X') * X); test von Lena
+if kernel % RBF-kernel
+%     H = diag(t) * rbfkernel(...) * diag(t);
+else % no kernel
+    H = diag(t) * (X') * X * diag(t);
+%     H = (t'*t).* ((X') * X); test von Lena
+end
 f = (-1) * ones(size(t,1),1);
 A = [];
 b = [];
