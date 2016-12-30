@@ -13,17 +13,15 @@ yRange = [0 100];                                                           % ra
 
 % plot data with class labels
 h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
-printPDF(h, '../figures/linearData.png');
 
 % train support vector machine
 alpha = trainSVM(X, t);
 
 % find support vectors
-idxSV = find(alpha>0);
+idxSV = find(alpha>1e-10);
 h = scatterData([X', t], 'x', 'y', 'Support Vectors');
 hold on
 plot(X(1,idxSV), X(2,idxSV), 'bo');
-printPDF(h, '../figures/sv.png');
 
 
 

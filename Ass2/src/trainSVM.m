@@ -15,12 +15,13 @@ function [ alpha ] = trainSVM( X, t )
 
 % quadprog: minimize 
 %       1/2*x'*H*x + f'*x subject to the restrictions 
-%       A*x ? b, 
+%       A*x <= b, 
 %       Aeq*x = beq, 
-%       lb ? x ? ub
+%       lb <= x <= ub
 
 % define constraint parameters  (negative for minimization)
 H = diag(t) * (X') * X * diag(t);
+% H = (t'*t).* ((X') * X); test von Lena
 f = (-1) * ones(size(t,1),1);
 A = [];
 b = [];
