@@ -19,7 +19,7 @@ h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
 alpha = trainSVM(X, t, false);
 
 % find support vectors
-idxSV = find(alpha>1e-10);
+idxSV = find(alpha>1e-8);
 h = scatterData([X', t], 'x', 'y', 'Support Vectors');
 hold on
 plot(X(1,idxSV), X(2,idxSV), 'bo');
