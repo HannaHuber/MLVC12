@@ -1,12 +1,13 @@
-function [ alpha ] = trainSVM( X, t , kernel)
+function [ alpha ] = trainSVM( X, t , kernel, sigma)
 %TRAINSVM trains a support vector machine (svm)
 %   Input:
-%   X   ...     2xN matrix of N 2D training samples
-%   t   ...     Nx1 vector of corresponding class labels
-%   kernel ...  boolean: 0 = no kernel used; 1 = RBF-kernel used.
+%       X   ...     2xN matrix of N 2D training samples
+%       t   ...     Nx1 vector of corresponding class labels
+%       kernel ...  boolean: 0 = no kernel used; 1 = RBF-kernel used.
+%       sigma ...   rbf-parameter
 %   Output:
-%   alpha   ...     Nx1 vector of lagrangian multipliers defining svm
-%                   alpha(i) > 0 if X(:, i) is a support vector
+%       alpha   ...     Nx1 vector of lagrangian multipliers defining svm
+%                       alpha(i) > 0 if X(:, i) is a support vector
 
 % eqs. 42+43: maximize 
 %       -1/2 * sum[alpha(i)alpha(j)t(i)t(j)(x(i)'x(j))] + % sum[alpha(i)],
@@ -22,11 +23,10 @@ function [ alpha ] = trainSVM( X, t , kernel)
 
 % define constraint parameters  (negative for minimization)
 if kernel % RBF-kernel
-    sigma = 10;
+%     sigma = 10;
     H = diag(t) * rbfkernelMatrix(X,X,sigma) * diag(t);
 else % no kernel
     H = diag(t) * (X') * X * diag(t);
-%     H = (t'*t).* ((X') * X); test von Lena
 end
 f = (-1) * ones(size(t,1),1);
 A = [];
