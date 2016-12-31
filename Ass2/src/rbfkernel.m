@@ -11,6 +11,6 @@ function [ k ] = rbfkernel( x1,x2,sigma )
 %       k   ...         kernel [scalar]
 %
 
-k = exp(-(x-y)'*(x-y)/sigma^2); %!?!?
+k = exp(-norm(x1-x2,2)^2/sigma^2); %!?!?
 end
 
