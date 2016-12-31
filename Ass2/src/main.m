@@ -12,12 +12,21 @@ yRange = [0 100];                                                           % ra
 % create linearly separable data 
 [X, t] = generateTrainingData(N, xRange, yRange, true);
 
+% separate in training set (X,t) and test set (X_new,t_new)
+X_new = X(:,1:5);
+t_new = t(1:5);
+X = X(:,6:end);
+t = t(6:end);
+
 % plot data with class labels
 h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
 %printPDF(h, '../figures/linearData.png');
 
 % train support vector machine
 alpha = trainSVM(X, t, false);
+
+% classify X_new
+y_new = predictSVM(alpha,X,t,X_new,false);
 
 % find support vectors
 idxSV = find(alpha>1e-8);
@@ -28,7 +37,8 @@ plot(X(1,idxSV), X(2,idxSV), 'bo');
 
 %% 1.2 the kernel trick
 % write the rbfkernel function and use different values for sigma
-sigma = [5,15,25,35,45];
+sigma = 35;
+% sigma = [5,15,25,35,45];
 for i=1:length(sigma)
     alpha = trainSVM(X, t, true, sigma(i));
        
@@ -40,4 +50,5 @@ for i=1:length(sigma)
 %     printPDF(h, ['../figures/sv_kernel',num2str(sigma(i))]);
 end
 
-
+% classify X_new
+y_new_kernel = predictSVM(alpha,X,t,X_new,true,35);

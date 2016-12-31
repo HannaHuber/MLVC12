@@ -17,10 +17,10 @@ idxSV = find(alpha>0);
 
 if kernel
     % calculate w0
-    w0 = t(idxSV(1)) - alpha' * diag(t) * rfbkernelMatrix(X,X(:,idxSV(1)),sigma);    
+    w0 = t(idxSV(1)) - alpha' * diag(t) * rbfkernelMatrix(X,X(:,idxSV(1)),sigma);    
     
     % classify new data (eq.12)
-    y_new = (alpha.*t)' *rfbkernelMatrix(X,x_new,sigma) + w0;
+    y_new = (alpha.*t)' *rbfkernelMatrix(X,x_new,sigma) + w0;
     
 else %no kernel
     % calculate w0
