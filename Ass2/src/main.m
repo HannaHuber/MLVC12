@@ -26,7 +26,7 @@ plot(X(1,idxSV), X(2,idxSV), 'bo');
 %printPDF(h, '../figures/sv.png');
 
 %% 1.2 the kernel trick
-% write the rbfkernel function and use differen values for sigma
+% write the rbfkernel function and use different values for sigma
 
 
 
