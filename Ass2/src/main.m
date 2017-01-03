@@ -38,7 +38,7 @@ plot(X(1,idxSV), X(2,idxSV), 'bo');
 %% 1.2 the kernel trick
 % write the rbfkernel function and use different values for sigma
 sigma = 35;
-% sigma = [5,15,25,35,45];
+% sigma = [5,15,25,35,45,55];
 for i=1:length(sigma)
     alpha = trainSVM(X, t, true, sigma(i));
        

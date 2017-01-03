@@ -65,9 +65,22 @@ Figure~\ref{fig:transformedInputVectors} shows the transformed input vectors.
 
 \noindent {\bf Tasks:}
 \begin{itemize}
-\item Try different values for sigma (the RBF parameter).
+\item Try different values for $\sigma$ (the RBF parameter).
 \end{itemize}
-%todo answer
+\begin{figure}[h!]
+\centering
+	\subfigure[$\sigma=5$]{\includegraphics[width=5cm]{../figures/sv_kernel5.pdf}}
+	\subfigure[$\sigma=15$]{\includegraphics[width=5cm]{../figures/sv_kernel15.pdf}}
+	\subfigure[$\sigma=25$]{\includegraphics[width=5cm]{../figures/sv_kernel25.pdf}}
+	\\
+	\subfigure[$\sigma=35$]{\includegraphics[width=5cm]{../figures/sv_kernel35.pdf}}
+	\subfigure[$\sigma=45$]{\includegraphics[width=5cm]{../figures/sv_kernel45.pdf}}
+	\subfigure[$\sigma=55$]{\includegraphics[width=5cm]{../figures/sv_kernel55.pdf}}
+\caption{Support Vectors for different values of the RBF parameter $\sigma$.}
+\label{fig:sv_kernel}
+\end{figure}
+The radial basis function kernel is defined by $K(x,y) = exp(-\frac{\|x-y\|^2}{\sigma^2})$.
+The corresponding support vectors are shown in Figure~\ref{fig:sv_kernel} for different values of the RBF parameter $\sigma$. In the lecture notes about RBF-networks, we discussed a selection of $\sigma= 2*avgdist$, where $avgdist$ denotes the average distance of the centers. Having distances between the data points of approximately 10 units (or slightly more), $\sigma= 25$ is then selected.
 
 \begin{itemize}
 \item Generate a non-linearly separable training set, plot the data, visualize the support vectors and plot the decision boundary.
