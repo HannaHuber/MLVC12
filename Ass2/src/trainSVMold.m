@@ -1,4 +1,4 @@
-function [ alpha ] = trainSVMSlack( X, t , kernel, sigma, slack)
+function [ alpha ] = trainSVMold( X, t , kernel, sigma)
 %TRAINSVM trains a support vector machine (svm)
 %   Input:
 %       X   ...     2xN matrix of N 2D training samples
@@ -28,29 +28,18 @@ if kernel % RBF-kernel
 else % no kernel
     H = diag(t) * (X') * X * diag(t);
 end
-
-
-
-
 f = (-1) * ones(size(t,1),1);
 A = [];
 b = [];
 Aeq = t';
 beq = 0;
 lb = zeros(size(t,1),1);
-ub = inf;
-options = optimoptions('Algorithm','interior-point-convex','Display','on');
-x0=[];
-N = size(X,2);
+ub = [];
+x0 = [];
+options = optimoptions(@fmincon,'Algorithm', 'interior-point');
+
 % calculate lagrange multipliers
-%alpha = quadprog(H, f, A, b, Aeq, beq, lb, ub);
-
-
-if slack == 0
-	alpha = quadprog(H,f,A,b,Aeq,beq,lb,[],x0,options);
-else
-	alpha = quadprog(H,f,A,b,Aeq,beq,lb,slack/N * ones(N,1),x0,options);
-end
+alpha = quadprog(H, f, A, b, Aeq, beq, lb, ub, x0, options);
 
 
 
