@@ -20,7 +20,7 @@ t = t(6:end);
 
 % plot data with class labels
 h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
-printPDF(h, '../figures/linearData');
+%printPDF(h, '../figures/linearData');
 
 % train support vector machine wihtour kernel and slack vars
 alpha = trainSVM(X, t, false, 0, 0);
