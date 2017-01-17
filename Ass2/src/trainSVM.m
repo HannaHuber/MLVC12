@@ -34,10 +34,12 @@ b = [];
 Aeq = t';
 beq = 0;
 lb = zeros(size(t,1),1);
-ub = inf;
+ub = [];
+x0 = [];
+options = optimoptions(@fmincon,'Algorithm', 'interior-point');
 
 % calculate lagrange multipliers
-alpha = quadprog(H, f, A, b, Aeq, beq, lb, ub);
+alpha = quadprog(H, f, A, b, Aeq, beq, lb, ub, x0, options);
 
 
 end

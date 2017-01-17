@@ -31,35 +31,34 @@
 \begin{itemize}
 \item Generate a suitable training set of linearly separable data
 \end{itemize}
-%todo answer
+The training set is generated in \texttt{generateTrainingData.m}. The function \texttt{generateTrainingData(N, xRange, yRange, linear)} takes the number of sample points, the domains (defined by a lower and an upper bound) from which the $x$ and $y$ coordinates are sampled and a flag which indicates if the resulting data should be linearly separable. A set of random 2D coordinates is created using the MATLAB function \texttt{rand}. Linear separability is achieved by labelling the according to the condition $ x_i + y_i > \bar{x} + \bar{y}$, where $\bar{x}$ and $\bar{y}$ denote the domain centers.
 
 \begin{itemize}
 \item Plot the input vectors in $\mathbb{R}^2$ and visualize corresponding target values (e.g. by using color). 
 \end{itemize}
-%todo answer (das was noch steht ist von assignment 1)
+The resulting training data is displayed in Figure~\ref{fig:linearData}. Sample points with class label 1 are marked red, points with label -1 are merked green.
 \begin{figure}[!h]
 	\begin{center}
 		\centering
-%		\includegraphics[width=6cm]{../figures/inputVectors.pdf}
+		\includegraphics[width=6cm]{../figures/linearData.pdf}
 	\end{center}	
-	\caption{Plot of the input vectors with the target value visualized by colour.}
-	\label{fig:inputVectors}
+	\caption{Linearly separable data with color-coded class labels (1=red, -1=green) for $N=100$.}
+	\label{fig:linearData}
 \end{figure}
-Figure~\ref{fig:inputVectors} shows the input vectors.
 
 \begin{itemize}
 \item Visualize the support vectors and plot the decision boundary.
 \end{itemize}
-%todo answer (das was noch steht ist von assignment 1)
+Figure~\ref{fig:sv} shows the support vectors defined by \texttt{trainSVM}.
 \begin{figure}[!h]
 	\begin{center}
 		\centering
-%		\includegraphics[width=6cm]{../figures/transformedInputVectors.pdf}
+%		\includegraphics[width=6cm]{../figures/sv.pdf}
 	\end{center}
-	\caption{Plot of the transformed input vectors with the target value visualized by colour.}
-	\label{fig:transformedInputVectors}
+	\caption{Training data with support vectors marked by blue circles.}
+	\label{fig:sv}
 \end{figure}
-Figure~\ref{fig:transformedInputVectors} shows the transformed input vectors.
+
 
 \subsection{The kernel trick}
 
