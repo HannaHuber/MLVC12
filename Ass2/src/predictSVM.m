@@ -13,7 +13,7 @@ function [ y_new ] = predictSVM( alpha, X, t, x_new, kernel, sigma )
 %       
 
 % find support vectors
-idxSV = find(alpha>0);
+idxSV = find(alpha>1e-8);
 
 if kernel
     % calculate w0
