@@ -22,11 +22,11 @@ t = t(6:end);
 h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
 printPDF(h, '../figures/linearData');
 
-% train support vector machine
-alpha = trainSVM(X, t, false);
+% train support vector machine wihtour kernel and slack vars
+alpha = trainSVM(X, t, false, 0, 0);
 
 % classify X_new
-y_new = predictSVM(alpha,X,t,X_new,false);
+b = getDecisionBoundary(alpha,X,t,X_new,false);
 
 % find support vectors
 idxSV = find(alpha>1e-8);
