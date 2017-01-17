@@ -37,9 +37,17 @@ plot(X(1,idxSV), X(2,idxSV), 'bo');
 
 %% 1.2 the kernel trick
 % write the rbfkernel function and use different values for sigma
-sigma = 35;
-% sigma = [5,15,25,35,45,55];
+
+clear X
+clear t
+% generate non-lin. separable data
+[X, t] = generateTrainingData(N, xRange, yRange, false);
+
+
+%sigma = 35;
+ sigma = [5,15,25,35,45,55]/100;
 for i=1:length(sigma)
+   
     alpha = trainSVM(X, t, true, sigma(i));
        
     % find support vectors
