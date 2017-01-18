@@ -79,7 +79,7 @@ Figure~\ref{fig:sv} shows the support vectors defined by \texttt{trainSVM}.
 \label{fig:sv_kernel}
 \end{figure}
 The radial basis function kernel is defined by $K(x,y) = exp(-\frac{\|x-y\|^2}{\sigma^2})$.
-The corresponding support vectors are shown in Figure~\ref{fig:sv_kernel} for different values of the RBF parameter $\sigma$. We can see, that the decision boundary gets better for larger $\sigma$ up to a value of 7.07. With $\sigma>=7.07$ the values of $\alpha$ are all greater than $10^{-8}$, hence we have all data points as support vectors.
+The corresponding support vectors are shown in Figure~\ref{fig:sv_kernel} for different values of the RBF parameter $\sigma$. We can see, that the decision boundary gets better for larger $\sigma$ up to a value of 7.07. With $\sigma>=7.07$ the values of $\alpha$ are all greater than $10^{-8}$, hence we have all data points as support vectors. Furthermore, the least number of SVs was determined for $\sigma=7.06$.
 %In the lecture notes about RBF-networks, we discussed a selection of $\sigma= 2*avgdist$, where $avgdist$ denotes the average distance of the centers. Having distances between the data points of approximately 10 units (or slightly more), $\sigma= 25$ is then selected.
 
 \begin{itemize}
