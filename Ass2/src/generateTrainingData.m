@@ -13,14 +13,13 @@ if linear
     t = double(sum(X) > mean(xRange) + mean(yRange))';
     t(t<1) = -1;
     
-    % create target labels for general data
+% create target labels for general data
 else
     % read in data -> new .csv file written by .py-file
     data = dlmread('perceptrondataUseful.csv',',');
     X(1,:) = data(:,1);
     X(2,:) = data(:,2);
     t=data(:,3);
-    
     
 end
 

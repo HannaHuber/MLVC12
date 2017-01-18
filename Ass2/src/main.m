@@ -4,8 +4,8 @@ clear
 close all
 %% Init variables
 N = 100;                                                                    % number of training samples
-xRange = [0 100];                                                           % range of x coords
-yRange = [0 100];                                                           % range of y coords
+xRange = [-0.5 0.5];                                                           % range of x coords
+yRange = [-0.5 0.5];                                                           % range of y coords
 
 %% 1.1: The dual optimization problem
 
@@ -19,20 +19,18 @@ X = X(:,6:end);
 t = t(6:end);
 
 % plot data with class labels
-h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data');
+h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data', 'filled');
 %printPDF(h, '../figures/linearData');
 
 % train support vector machine wihtour kernel and slack vars
 alpha = trainSVM(X, t, false, 0, 0);
 
-% classify X_new
-b = getDecisionBoundary(alpha,X,t,X_new,false);
-
 % find support vectors
 idxSV = find(alpha>1e-8);
-h = scatterData([X', t], 'x', 'y', 'Support Vectors');
+h = scatterData([X', t], 'x', 'y', 'Support Vectors', 'filled');
 hold on
 plot(X(1,idxSV), X(2,idxSV), 'bo');
+getDecisionBoundary(alpha, X, t, false, 0);
 %printPDF(h, '../figures/sv');
 
 %% 1.2 the kernel trick
@@ -48,14 +46,15 @@ clear t
  sigma = [5,15,25,35,45,55]/100;
 for i=1:length(sigma)
    
-    alpha = trainSVM(X, t, true, sigma(i));
+    alpha = trainSVM(X, t, true, sigma(i),0);
        
     % find support vectors
     idxSV = find(alpha>1e-8); 
-    h = scatterData([X', t], 'x', 'y', ['Support Vectors; sigma=',num2str(sigma(i))]);
+    h = scatterData([X', t], 'x', 'y', ['Support Vectors; sigma=',num2str(sigma(i))], 'filled');
     hold on
     plot(X(1,idxSV), X(2,idxSV), 'bo');
-%     printPDF(h, ['../figures/sv_kernel',num2str(sigma(i))]);
+    getDecisionBoundary(alpha, X, t, true, sigma(i));
+%   printPDF(h, ['../figures/sv_kernel',num2str(sigma(i))]);
 end
 
 % classify X_new

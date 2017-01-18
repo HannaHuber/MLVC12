@@ -1,24 +1,24 @@
-function [ b ] = getDecisionBoundary( alpha,X,t,kernel, sigma )
+function [  ] = getDecisionBoundary( alpha,X,t,kernel, sigma )
 %GETDECISIONBOUNDARY returns decision boundary calculated by a SVM 
 % between two classes in a dataset X with labels t
 
-% get convex hull of svs
+% get support vectors
 idxSV = find(alpha>1e-8);
-sv = X(:,idxSV);
-hull = convhull(sv');
 
-% create grid in within hull of svs
-[xgrid, ygrid] = meshgrid(min(X(1,idxSV)):0.1:max(X(1,idxSV)),...
-                          min(X(2,idxSV)):0.1:max(X(2,idxSV)) ); 
-in = inpolygon(xgrid, ygrid, sv(1, hull), sv(2, hull));
-grid = [xgrid(in)' ; ygrid(in)'];
+% create grid in support vector range
+limits = [min(X(:,idxSV), [], 2) max(X(:,idxSV), [], 2)];
+step = diff(limits,1,2)/100.0;
+[xgrid, ygrid] = meshgrid(limits(1,1):step(1):limits(1,2),...
+                          limits(2,1):step(2):limits(2,2) ); 
+grid = [xgrid(:)' ; ygrid(:)'];
 
 % predict labels on grid
-labels = predictSVM(alpha, X, t, grid, kernel, sigma);
+labels = predictSVM(alpha, X, t, grid, kernel, sigma)';
 
-% find boundary
-tol = 0.001;
-b = labels(abs(labels) < tol);
+% plot prediction boundary
+scatterData([xgrid(:), ygrid(:), sign(labels)], 'x', 'y', 'Prediction', '+');
+hold on
+contour(xgrid, ygrid,reshape(labels, size(xgrid)),[0,0])
 
 end
 
