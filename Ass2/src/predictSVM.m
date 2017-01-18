@@ -20,14 +20,14 @@ if kernel
     w0 = t(idxSV(1)) - alpha' * diag(t) * rbfkernelMatrix(X,X(:,idxSV(1)),sigma);    
     
     % classify new data (eq.12)
-    y_new = (alpha.*t)' *rbfkernelMatrix(X,x_new,sigma) + w0;
+    y_new = sign((alpha.*t)' *rbfkernelMatrix(X,x_new,sigma) + w0);
     
 else %no kernel
     % calculate w0
     w0 = t(idxSV(1)) - alpha' * diag(t) * X' * X(:,idxSV(1));    
     
     % classify new data (eq.12)
-    y_new = (alpha.*t)' * X' * x_new + w0;
+    y_new = sign((alpha.*t)' * X' * x_new + w0);
 end
 end
 
