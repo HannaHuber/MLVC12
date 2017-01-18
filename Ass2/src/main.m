@@ -54,7 +54,7 @@ for i=1:length(sigma)
     hold on
     plot(X(1,idxSV), X(2,idxSV), 'bo');
     getDecisionBoundary(h, alpha, X, t, true, sigma(i));
-%     printPDF(h, ['../figures/sv_kernel',num2str(sigma(i))]);
+    printPDF(h, ['../figures/sv_kernel',num2str(sigma(i)*100)]);
 end
 
 % classify X_new

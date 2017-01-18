@@ -53,9 +53,9 @@ Figure~\ref{fig:sv} shows the support vectors defined by \texttt{trainSVM}.
 \begin{figure}[!h]
 	\begin{center}
 		\centering
-%		\includegraphics[width=6cm]{../figures/sv.pdf}
+		\includegraphics[width=6cm]{../figures/sv.pdf}
 	\end{center}
-	\caption{Training data with support vectors marked by blue circles.}
+	\caption{Training data with support vectors marked by blue circles and decision boundary plotted in blue.}
 	\label{fig:sv}
 \end{figure}
 
@@ -68,14 +68,14 @@ Figure~\ref{fig:sv} shows the support vectors defined by \texttt{trainSVM}.
 \end{itemize}
 \begin{figure}[h!]
 \centering
-	\subfigure[$\sigma=5$]{\includegraphics[width=5cm]{../figures/sv_kernel5.pdf}}
-	\subfigure[$\sigma=15$]{\includegraphics[width=5cm]{../figures/sv_kernel15.pdf}}
-	\subfigure[$\sigma=25$]{\includegraphics[width=5cm]{../figures/sv_kernel25.pdf}}
+	\subfigure[$\sigma=0.5$]{\includegraphics[width=5cm]{../figures/sv_kernel5.pdf}}
+	\subfigure[$\sigma=0.15$]{\includegraphics[width=5cm]{../figures/sv_kernel15.pdf}}
+	\subfigure[$\sigma=0.25$]{\includegraphics[width=5cm]{../figures/sv_kernel25.pdf}}
 	\\
-	\subfigure[$\sigma=35$]{\includegraphics[width=5cm]{../figures/sv_kernel35.pdf}}
-	\subfigure[$\sigma=45$]{\includegraphics[width=5cm]{../figures/sv_kernel45.pdf}}
-	\subfigure[$\sigma=55$]{\includegraphics[width=5cm]{../figures/sv_kernel55.pdf}}
-\caption{Support Vectors for different values of the RBF parameter $\sigma$.}
+	\subfigure[$\sigma=0.35$]{\includegraphics[width=5cm]{../figures/sv_kernel35.pdf}}
+	\subfigure[$\sigma=0.45$]{\includegraphics[width=5cm]{../figures/sv_kernel45.pdf}}
+	\subfigure[$\sigma=0.55$]{\includegraphics[width=5cm]{../figures/sv_kernel55.pdf}}
+\caption{Training data with support vectors marked by blue circles and decision boundary plotted in blue, for different values of the RBF parameter $\sigma$.}
 \label{fig:sv_kernel}
 \end{figure}
 The radial basis function kernel is defined by $K(x,y) = exp(-\frac{\|x-y\|^2}{\sigma^2})$.
@@ -84,18 +84,9 @@ The corresponding support vectors are shown in Figure~\ref{fig:sv_kernel} for di
 \begin{itemize}
 \item Generate a non-linearly separable training set, plot the data, visualize the support vectors and plot the decision boundary.
 \end{itemize}
-%todo answer (das was noch steht ist von assignment 1)
-\begin{figure}[!h]
-	\begin{center}
-		\centering
-%		\includegraphics[width=6cm]{../figures/perceptron.pdf}
-	\end{center}
-	\caption{\label{fig:perceptron}Plot of the decision boundary in the original data space found by the perceptron (green curve) together with labelled data points.}
-\end{figure}
+See also Figure~\ref*{fig:sv}
 
 
-
-%todo Variante für figure mit 3 subfigures.
 %\begin{figure}[h!]
 %\centering
 %	\subfigure[]{\includegraphics[width=5cm]{../figures/originalBatchIt1.pdf}}
