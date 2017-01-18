@@ -42,8 +42,8 @@ clear t
 [X, t] = generateTrainingData(N, xRange, yRange, false);
 
 
-%sigma = 35;
- sigma = [5,15,25,35,45,55]/100;
+% sigma = 8;
+sigma = [0.05,0.5,1,4,7.06,7,07];
 for i=1:length(sigma)
    
     alpha = trainSVM(X, t, true, sigma(i),0);

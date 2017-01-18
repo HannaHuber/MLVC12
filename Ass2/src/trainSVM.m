@@ -44,7 +44,7 @@ else
 end
 
 %options = optimoptions('Algorithm','interior-point-convex','Display','on');
-options = optimoptions(@fmincon,'Algorithm', 'interior-point');
+options = optimoptions(@quadprog,'Algorithm', 'interior-point-convex','TolX',1e-9);
 
 x0=[];
 
