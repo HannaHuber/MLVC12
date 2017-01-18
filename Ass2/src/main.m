@@ -20,7 +20,7 @@ t = t(6:end);
 
 % plot data with class labels
 h = scatterData([X', t], 'x', 'y', 'Linearly Separable Data', 'filled');
-%printPDF(h, '../figures/linearData');
+% printPDF(h, '../figures/linearData');
 
 % train support vector machine wihtour kernel and slack vars
 alpha = trainSVM(X, t, false, 0, 0);
@@ -30,8 +30,8 @@ idxSV = find(alpha>1e-8);
 h = scatterData([X', t], 'x', 'y', 'Support Vectors', 'filled');
 hold on
 plot(X(1,idxSV), X(2,idxSV), 'bo');
-getDecisionBoundary(alpha, X, t, false, 0);
-%printPDF(h, '../figures/sv');
+getDecisionBoundary(h, alpha, X, t, false, 0);
+% printPDF(h, '../figures/sv');
 
 %% 1.2 the kernel trick
 % write the rbfkernel function and use different values for sigma
@@ -53,8 +53,8 @@ for i=1:length(sigma)
     h = scatterData([X', t], 'x', 'y', ['Support Vectors; sigma=',num2str(sigma(i))], 'filled');
     hold on
     plot(X(1,idxSV), X(2,idxSV), 'bo');
-    getDecisionBoundary(alpha, X, t, true, sigma(i));
-%   printPDF(h, ['../figures/sv_kernel',num2str(sigma(i))]);
+    getDecisionBoundary(h, alpha, X, t, true, sigma(i));
+%     printPDF(h, ['../figures/sv_kernel',num2str(sigma(i))]);
 end
 
 % classify X_new
