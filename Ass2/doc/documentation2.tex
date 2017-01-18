@@ -26,6 +26,19 @@
 
 \section{Assignment 2}
 \subsection{The dual optimization problem}
+Support Vector Machines, short SVM, maximize the distance between data points and the decision boundary, thereby cope with the common issue that new data points are easily misclassified if the decision boundary is located close to another data point. A linear decision boundary can be described by the equation $d(x)=w^T+w_0=0$ with a vector $w \in \mathbb{R}^d$ and $w_0 \in \mathbb{R}$. The distance of a point $x \in \mathbb{R}^d$ is given by $\frac{w^Tx+w_0}{||w||}$. Furthermore let $d(x_i)t_i>0$.
+The distance to the decision boundary is to be maximized which leads to:
+$$\frac{d(x_i)t_i}{||w||} \geq \tau$$
+for $i \in \{1,2,..., N\}$ and $\tau >0$ the margin. Since the int hyperplane equation $d(x)=0$ $w$ as well as $w_0$ can be multiplied by a positive scalar without manipulating the solution, $\tau$ can be assumed as $\frac{1}{||w||}$.
+The margin $\tau$ is maximized when the function $J=\frac{1}{2} ||w||^2$ is minimized under the constraints of $(w^Tx_i+w_0)t_i \geq1$.\\
+This can be archieved by using Lagrange multipliers, leading to the formulation:\\
+Maximize:
+ $$L(\alpha)=-\frac{1}{2} \sum_{i,j=1}^N \alpha_i \alpha_j t_i t_j (x_i^T x_j) + \sum_{i=1}^N \alpha_i$$
+ 
+ under the constraints $\alpha_i >0 \quad \forall i$ and $\sum_{i=1}^N \alpha_i t_i =0$.\\
+ 
+ In other notation it can be expressed as minimizing:
+ $$-L(\alpha)=\frac{1}{2} \alpha^T H \alpha + f^T \alpha$$
 
 \noindent {\bf Tasks:}
 \begin{itemize}
@@ -80,13 +93,13 @@ Figure~\ref{fig:sv} shows the support vectors defined by \texttt{trainSVM}.
 \end{figure}
 The radial basis function kernel is defined by $K(x,y) = exp(-\frac{\|x-y\|^2}{\sigma^2})$.
 The corresponding support vectors are shown in Figure~\ref{fig:sv_kernel} for different values of the RBF parameter $\sigma$. In the lecture notes about RBF-networks, we discussed a selection of $\sigma= 2*avgdist$, where $avgdist$ denotes the average distance of the centers. Having distances between the data points of approximately 10 units (or slightly more), $\sigma= 25$ is then selected.
+% @Lena, Sigma=25?? 
 
 \begin{itemize}
 \item Generate a non-linearly separable training set, plot the data, visualize the support vectors and plot the decision boundary.
 \end{itemize}
-See also Figure~\ref*{fig:sv}
-
-
+%See also Figure~\ref{fig:sv}
+Figure \ref{fig:sv_kernel} shows that the decision boundaries for different values of $\sigma$, but the same non-linear seperable data set. It can be observed that a varying $\sigma$ leads to a varying number of support vectors.
 %\begin{figure}[h!]
 %\centering
 %	\subfigure[]{\includegraphics[width=5cm]{../figures/originalBatchIt1.pdf}}
@@ -96,6 +109,8 @@ See also Figure~\ref*{fig:sv}
 %\label{fig:origBA}
 %\end{figure}
 
+
+To train the non-linear seperable data using a RBF kernel using a slack variable $C$, we introduce an upper boundary for the Lagrange multipliers $\alpha _i$. The upper boundary is given by $\frac{C}{N}$. The value of the slack variables needs to be chosen carefully to prevent overfitting in case of large slack variables but may be chosen large enough to provide accurate SVM calculations.
 
 % \bibliography{lit}
 % \bibliographystyle{unsrt}
